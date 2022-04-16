@@ -1,0 +1,115 @@
+{% extends 'mainpage/base.html' %}
+{% load static %}
+
+{% block title %}
+    Main Page
+{% endblock %}
+
+{% block content %}
+
+    <div class="">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <h3 class="mb-0">Валютный рынок</h3>
+            <br>
+            <!-- Кнопки переключения валюты -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                          <div class="row">
+                            <div class="col">
+                              <button type="button" class="btn border btn-light">Доллар/Рубль</button>
+                            </div>
+                            <div class="col">
+                              <button type="button" class="btn border btn-light">Евро/Рубль</button>
+                            </div>
+                            <div class="col">
+                              <button type="button" class="btn border btn-light">Доллар/Евро</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            <!--  -->
+            <br>
+            <!-- График -->
+            <figure class="highcharts-figure">
+              <div id="container-chart"></div>
+            </figure>
+            <!--  -->
+            <!-- Информационная таблица -->
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                      <th scope="row">Доллар/Рубль</th>
+                      <td colspan="4">18:00</td>
+                      <td>-0,046</td>
+                      <td>103,5500</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Евро/Рубль</th>
+                      <td colspan="4">18:00</td>
+                      <td>-0,046</td>
+                      <td>103,5500</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Доллар/Евро</th>
+                      <td colspan="4">18:00</td>
+                      <td>-0,046</td>
+                        <td>103,5500</td>
+                    </tr>
+                  </tbody>
+            </table>
+            <!--  -->
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <h3 class="mb-0">Новости</h3>
+            <br>
+            <!-- Кнопки переключения валюты -->
+{#            <hr>#}
+{#                <p class="date">Тестовый текст</p>#}
+{#                <p>Тестовый текст</p>#}
+{#            <hr>#}
+{#                <p class="date">Тестовый текст</p>#}
+{#                <p>Тестовый текст</p>#}
+{#            <hr>#}
+{#                <p class="date">Тестовый текст</p>#}
+{#                <p>Тестовый текст</p>#}
+{#            <hr>#}
+            <table class="table">
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        Регламент работы рынков Московской биржи 22 марта 2022 года
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Регламент работы рынков Московской биржи 22 марта 2022 года
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Регламент работы рынков Московской биржи 22 марта 2022 года
+                    </td>
+                </tr>
+            </table>
+            <!--  -->
+            <br>
+            <!-- График -->
+
+            <!--  -->
+            <!-- Информационная таблица -->
+
+            <!--  -->
+        </div>
+      </div>
+    </div>
+{% endblock %}
