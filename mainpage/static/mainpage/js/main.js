@@ -18,6 +18,20 @@ var chart = Highcharts.chart('container-chartt', {
               text: 'Exchange rate'
           }
       },
+      plotOptions: {
+        line: {
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    },
       series: [{
           name: 'MOEX',
           data: [70.9600, 71.001, 70.800, 70.7600, 70.5600, 70.2600, 70.1600, 70.5600, 70.9600, 71.001, 70.800, 70.7600, 70.5600, 70.2600, 70.1600, 70.5600, 70.9600, 71.001, 70.800, 70.7600, 70.5600, 70.2600, 70.1600, 70.5600, 70.2600, 70.1600, 70.5600, 70.9600, 70.800,70.2600, 70.1600, 70.5600, 70.9600,70.800,70.2600],
@@ -49,6 +63,20 @@ function graph_eur_rub(){
                   text: 'Exchange rate'
               }
           },
+          plotOptions: {
+            line: {
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
           series: [{
               name: 'MOEX',
               data: [73.9600, 74.001, 73.800, 74.7600, 73.5600, 74.2600, 73.1600, 74.5600, 73.9600, 74.001, 73.800, 74.7600, 73.9600, 74.001, 73.800, 74.7600, 73.5600, 74.2600, 73.1600, 74.5600, 73.9600, 74.001, 73.800, 74.7600, 74.7600, 73.5600, 74.2600, 73.1600, 74.5600, 73.9600, 74.001, 73.800, 74.7600, 73.800, 74.7600],
@@ -77,6 +105,20 @@ function graph_eur_rub(){
         yAxis: {
             title: {
                 text: 'Exchange rate'
+            }
+        },
+        plotOptions: {
+            line: {
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
             }
         },
         series: [{
