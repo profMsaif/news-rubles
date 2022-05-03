@@ -18,10 +18,10 @@
                     <div class="col-8">
                           <div class="row">
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Доллар/Рубль</button>
+                              <button type="button" class="btn border btn-light" id="us_rub"  onclick="graph_us_rub()">Доллар/Рубль</button>
                             </div>
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Евро/Рубль</button>
+                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
                             <div class="col">
                               <button type="button" class="btn border btn-light">Прогноз курса</button>
@@ -34,7 +34,7 @@
             <br>
             <!-- График -->
                 <!-- <div id="container-chart"></div> -->
-                <div id="container-chartt" style="width:100%; height:400px;"></div>
+                <div id="container-chartt" style="width:100%; height:380px;"></div>
             <!--  -->
             <!-- Информационная таблица -->
             <table class="table table-striped">
