@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import USD
 import json
+from json import loads
 from decimal import Decimal
 from datetime import date, datetime
 from django.core.serializers.json import DjangoJSONEncoder
@@ -39,7 +40,7 @@ def index(request):
     charts_data["charts_currency"] = dict()
     charts_data["charts_currency"]["dates_list"] = dates_list
     charts_data["charts_currency"]["series"] = [
-        {"name": "USD", "data": all_currencyUSD_date}
+        {"name": "MOEX", "data": all_currencyUSD_date}
     ]
     
     def custom_serializer(obj):
@@ -49,11 +50,12 @@ def index(request):
         if isinstance(obj, Decimal):
             return float(obj)
 
+
     charts_data = json.dumps(charts_data, default=custom_serializer)
-    
+    print(charts_data)  
 
 
-    return render(request, 'mainpage/index.html', {'currencyUSD': charts_data})
+    return render(request, 'mainpage/index.html', locals())
 
 
 def newspage(request):
