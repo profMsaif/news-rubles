@@ -12,6 +12,8 @@
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Валютный рынок</h3>
             <br>
+            {{ charts_data|safe }}
+            {{ currencyUSD }}
             <!-- Кнопки переключения валюты -->
             <div class="container">
                 <div class="row">

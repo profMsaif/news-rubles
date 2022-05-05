@@ -1,3 +1,4 @@
+
 // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ НАЖАТИИ)
 function graph_us_rub(){
 var chart = Highcharts.chart('container-chartt', {
