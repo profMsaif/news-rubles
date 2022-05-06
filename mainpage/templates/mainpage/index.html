@@ -18,10 +18,11 @@
         
             
             <!-- JS ЧАСТЬ, ПОТОМУ ЧТО ПЕРЕДАТЬ JSON НАПРЯМУЮ В JS НЕ ПОЛУЧАЕТСЯ -->
+            <!-- P.S. (ПОЛУЧАЕТСЯ) -->
             <script>
               var data = JSON.parse('{{ charts_data | safe }}');
                 console.log(data)
-                console.log(data.charts_currency.dates_list);
+                console.log(data.charts_currency.dates_list);зе
                 console.log(data.charts_currency.series);
             // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ НАЖАТИИ)
               function graph_us_rub(){
