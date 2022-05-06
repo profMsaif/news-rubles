@@ -11,6 +11,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 
 def index(request):
+    # ПОЛУЧЕНИЕ ДАННЫХ USD ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
     currencyUSD = USD.objects.all()\
         .values("timestamp", "id_currency", "price", "id_resource")\
         .order_by("timestamp")
