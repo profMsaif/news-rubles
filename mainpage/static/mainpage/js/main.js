@@ -10,7 +10,7 @@ var chart = Highcharts.chart('container-chartt', {
         text: 'Доллар/Рубль'
     },
     xAxis: {
-        categories: data.charts_currency.dates_list
+        categories: data_usd.charts_currency.dates_list
     },
     yAxis: {
         title: {
@@ -31,5 +31,5 @@ var chart = Highcharts.chart('container-chartt', {
             }
         }
     },
-    series: data.charts_currency.series
+    series: data_usd.charts_currency.series
 });
