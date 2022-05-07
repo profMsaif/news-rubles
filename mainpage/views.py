@@ -61,6 +61,7 @@ def index(request):
         {"name": "CentralBank", "data": CB_currencyUSD_date}
     ]
 
+    # ПОЛУЧЕНИЕ ДАННЫХ EUR ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
     currencyEUR = EUR.objects.all()\
         .values("timestamp", "id_currency", "price", "id_resource")\
         .order_by("timestamp")
@@ -101,14 +102,6 @@ def index(request):
                 CB_currencyEUR_date.append(0)
     
     # print(all_currencyEUR_date)
-    charts_data = dict()
-    charts_data["charts_currency"] = dict()
-    charts_data["charts_currency"]["dates_list"] = dates_list
-    charts_data["charts_currency"]["series"] = [
-        {"name": "MOEX", "data": all_currencyUSD_date},
-        {"name": "CentralBank", "data": CB_currencyUSD_date}
-    ]
-
     charts_data_eur = dict()
     charts_data_eur["charts_currency_eur"] = dict()
     charts_data_eur["charts_currency_eur"]["dates_list_eur"] = dates_list_eur
