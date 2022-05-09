@@ -4,7 +4,7 @@ from django.db import models
 class USD(models.Model):
     price = models.FloatField('Стоимость')
     id_currency = models.ForeignKey("Currency", on_delete=models.CASCADE)
-    timestamp = models.DateField('Время')
+    timestamp = models.DateTimeField('Время')
     id_resource = models.ForeignKey("Resource", on_delete=models.CASCADE)
 
     def str(self):
@@ -14,7 +14,7 @@ class USD(models.Model):
 class EUR(models.Model):
     price = models.FloatField('Стоимость')
     id_currency = models.ForeignKey("Currency", on_delete=models.CASCADE)
-    timestamp = models.DateField('Время')
+    timestamp = models.DateTimeField('Время')
     id_resource = models.ForeignKey("Resource", on_delete=models.CASCADE)
 
     def str(self):
@@ -33,7 +33,7 @@ class News(models.Model):
     id_currency = models.ForeignKey("Currency", on_delete=models.CASCADE)
     id_resource = models.ForeignKey("Resource", on_delete=models.CASCADE)
     text = models.TextField('Текст статьи')
-    time_stamp = models.DateField()
+    time_stamp = models.DateTimeField()
 
     def str(self):
         return self.text
