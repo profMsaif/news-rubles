@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env()
 DEBUG = env('DEBUG')
+USE_TZ = False
 
 
 # Quick-start development settings - unsuitable for production
