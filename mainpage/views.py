@@ -101,7 +101,7 @@ def index(request):
             else:
                 CB_currencyEUR_date.append(0)
     
-    # print(all_currencyEUR_date)
+    print(all_currencyEUR_date)
     charts_data_eur = dict()
     charts_data_eur["charts_currency_eur"] = dict()
     charts_data_eur["charts_currency_eur"]["dates_list_eur"] = dates_list_eur

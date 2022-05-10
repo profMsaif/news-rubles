@@ -118,7 +118,14 @@
                               <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Прогноз курса</button>
+                              <button type="button" class="btn border btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Прогноз курса
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="graph_us_rub()">Прогноз USD</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" onclick="graph_eur_rub()">Прогноз EUR</a></li>
+                              </ul>
                             </div>
                           </div>
                         </div>
