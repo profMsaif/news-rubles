@@ -1,3 +1,5 @@
+
+
 {% extends 'mainpage/base.html' %}
 {% load static %}
 
@@ -12,19 +14,118 @@
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Валютный рынок</h3>
             <br>
+            <!-- {{ currencyUSD }} -->
+        
+            
+            <!-- JS ЧАСТЬ, ПОТОМУ ЧТО ПЕРЕДАТЬ JSON НАПРЯМУЮ В JS НЕ ПОЛУЧАЕТСЯ -->
+            <!-- P.S. (ПОЛУЧАЕТСЯ) -->
+            <script>
+              var data_usd = JSON.parse('{{ charts_data | safe }}');
+              var data_eur = JSON.parse('{{ charts_data_eur | safe }}');
+                console.log(data_usd)
+                console.log(data_eur)
+                console.log(data_usd.charts_currency.dates_list);
+                console.log(data_usd.charts_currency.series);
+                console.log(data_eur.charts_currency_eur.dates_list_eur);
+                console.log(data_eur.charts_currency_eur.series_eur);
+            // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ НАЖАТИИ)
+              function graph_us_rub(){
+                  var chart = Highcharts.chart('container-chartt', {
+                        chart: {
+                            type: 'line'
+                        },
+                        title: {
+                            text: ''
+                        },
+                        subtitle: {
+                          text: 'Доллар/Рубль'
+                      },
+                        xAxis: {
+                            categories: data_usd.charts_currency.dates_list
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Exchange rate'
+                            }
+                        },
+                        plotOptions: {
+                          line: {
+                              marker: {
+                                  enabled: false,
+                                  symbol: 'circle',
+                                  radius: 2,
+                                  states: {
+                                      hover: {
+                                          enabled: true
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                        series: data_usd.charts_currency.series
+                    });
+                  }
+              // ГРАФИК ЕВРО_РУБЛЬ (ПРИ НАЖАТИИ)
+              function graph_eur_rub(){
+                  var chart = Highcharts.chart('container-chartt', {
+                        chart: {
+                            type: 'line'
+                        },
+                        title: {
+                            text: ''
+                        },
+                        subtitle: {
+                          text: 'Евро/Рубль'
+                      },
+                        xAxis: {
+                          categories: data_eur.charts_currency_eur.dates_list_eur
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Exchange rate'
+                            }
+                        },
+                        plotOptions: {
+                          line: {
+                              marker: {
+                                  enabled: false,
+                                  symbol: 'circle',
+                                  radius: 2,
+                                  states: {
+                                      hover: {
+                                          enabled: true
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                        series: data_eur.charts_currency_eur.series_eur
+                    });
+                  }
+                  
+
+            </script>
+
             <!-- Кнопки переключения валюты -->
             <div class="container">
                 <div class="row">
                     <div class="col-8">
                           <div class="row">
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Доллар/Рубль</button>
+                              <button type="button" class="btn border btn-light" id="us_rub"  onclick="graph_us_rub()">Доллар/Рубль</button>
                             </div>
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Евро/Рубль</button>
+                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
                             <div class="col">
-                              <button type="button" class="btn border btn-light">Доллар/Евро</button>
+                              <button type="button" class="btn border btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Прогноз курса
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="graph_us_rub()">Прогноз USD</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" onclick="graph_eur_rub()">Прогноз EUR</a></li>
+                              </ul>
                             </div>
                           </div>
                         </div>
@@ -33,9 +134,8 @@
             <!--  -->
             <br>
             <!-- График -->
-            <figure class="highcharts-figure">
-              <div id="container-chart"></div>
-            </figure>
+                <!-- <div id="container-chart"></div> -->
+                <div id="container-chartt" style="width:100%; height:380px;"></div>
             <!--  -->
             <!-- Информационная таблица -->
             <table class="table table-striped">
@@ -51,12 +151,6 @@
                       <td colspan="4">18:00</td>
                       <td>-0,046</td>
                       <td>103,5500</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Доллар/Евро</th>
-                      <td colspan="4">18:00</td>
-                      <td>-0,046</td>
-                        <td>103,5500</td>
                     </tr>
                   </tbody>
             </table>
