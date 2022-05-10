@@ -8,8 +8,15 @@ from json import loads
 from decimal import Decimal
 from datetime import date, datetime
 from django.core.serializers.json import DjangoJSONEncoder
+from django.utils import timezone
+import pytz
+import datetime
 
 
+
+# offset = datetime.timezone(datetime.timedelta(hours=5))
+
+# print(datetime.datetime.now(offset))
 
 def index(request):
     # ПОЛУЧЕНИЕ ДАННЫХ USD ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
@@ -21,7 +28,7 @@ def index(request):
     currencyUSD_dict = dict()
     currencyUSD_CB_dict = dict()
 
-
+    
     for order_by_id in currencyUSD:
         if not order_by_id["timestamp"] in dates_list:
             dates_list.append(order_by_id["timestamp"])
@@ -35,7 +42,7 @@ def index(request):
                 currencyUSD_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
-
+        print(dates_list)
         
         all_currencyUSD_date = list()
         for date_item in dates_list:
@@ -113,7 +120,7 @@ def index(request):
     
     
     def custom_serializer(obj):
-        if isinstance(obj, (datetime, date)):
+        if isinstance(obj, (date)):
             serial = obj.isoformat()
             return serial
         if isinstance(obj, Decimal):
