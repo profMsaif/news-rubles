@@ -11,13 +11,14 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 import pytz
 import datetime
+from tzlocal import get_localzone
 
+tz = get_localzone()
+tz
+print(tz)
+offset = datetime.timezone(datetime.timedelta(hours=5))
 
-
-
-# offset = datetime.timezone(datetime.timedelta(hours=5))
-
-# print(datetime.datetime.now(offset))
+print(datetime.datetime.now(offset))
 
 def index(request):
     # ПОЛУЧЕНИЕ ДАННЫХ USD ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
@@ -49,16 +50,16 @@ def index(request):
         for date_item in dates_list:
             if date_item in currencyUSD_dict:
                 all_currencyUSD_date.append(currencyUSD_dict[date_item])
-            else:
-                all_currencyUSD_date.append(0)
+            # else:
+            #     all_currencyUSD_date.append(currencyUSD_CB_dict[date_item])
 
         
         CB_currencyUSD_date = list()
         for date_item in dates_list:
             if date_item in currencyUSD_CB_dict:
                 CB_currencyUSD_date.append(currencyUSD_CB_dict[date_item])
-            else:
-                CB_currencyUSD_date.append(0)
+            # else:
+            #     CB_currencyUSD_date.append(currencyUSD_dict[date_item])
     
     
     charts_data = dict()
@@ -118,7 +119,7 @@ def index(request):
         {"name": "CentralBank", "data": CB_currencyEUR_date}
     ]
 
-    
+    print(charts_data_eur)
     
     def custom_serializer(obj):
         if isinstance(obj, (date)):

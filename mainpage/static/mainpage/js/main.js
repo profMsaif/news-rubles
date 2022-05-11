@@ -1,3 +1,4 @@
+
 // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ ЗАГРУЗКИ СТРАНИЦЫ)
 var chart = Highcharts.chart('container-chartt', {
     chart: {
