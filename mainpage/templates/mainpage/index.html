@@ -1,7 +1,7 @@
 
-
 {% extends 'mainpage/base.html' %}
 {% load static %}
+{% load mathfilters %}
 
 {% block title %}
     Main Page
@@ -16,6 +16,7 @@
             <br>
             <!-- {{ currencyUSD }} -->
         
+            
             
             <!-- JS ЧАСТЬ, ПОТОМУ ЧТО ПЕРЕДАТЬ JSON НАПРЯМУЮ В JS НЕ ПОЛУЧАЕТСЯ -->
             <!-- P.S. (ПОЛУЧАЕТСЯ) -->
@@ -137,20 +138,35 @@
                 <!-- <div id="container-chart"></div> -->
                 <div id="container-chartt" style="width:100%; height:380px;"></div>
             <!--  -->
+            <!-- {{ all_currencyUSD_date|last }} -->
             <!-- Информационная таблица -->
             <table class="table table-striped">
                 <tbody>
                     <tr>
-                      <th scope="row">Доллар/Рубль</th>
-                      <td colspan="4">18:00</td>
-                      <td>-0,046</td>
-                      <td>103,5500</td>
+                      <th scope="row">Доллар/Рубль MOEX</th>
+                      <td colspan="4">{{ dates_list|last }}</td>
+                      <td>
+                        {{ currency_math_USD_MOEX }}
+                      </td>
+                      <td>{{ all_currencyUSD_date|last }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Евро/Рубль</th>
-                      <td colspan="4">18:00</td>
-                      <td>-0,046</td>
-                      <td>103,5500</td>
+                      <th scope="row">Доллар/Рубль CentralBank</th>
+                      <td colspan="4">{{ dates_list|last }}</td>
+                      <td>{{ currency_math_USD_CB }}</td>
+                      <td>{{ CB_currencyUSD_date|last }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Евро/Рубль MOEX</th>
+                      <td colspan="4">{{ dates_list_eur|last }}</td>
+                      <td>{{ currency_math_EUR_MOEX }}</td>
+                      <td>{{ all_currencyEUR_date|last }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Евро/Рубль CentralBank</th>
+                      <td colspan="4">{{ dates_list_eur|last }}</td>
+                      <td>{{ currency_math_EUR_CB }}</td>
+                      <td>{{ CB_currencyEUR_date|last }}</td>
                     </tr>
                   </tbody>
             </table>

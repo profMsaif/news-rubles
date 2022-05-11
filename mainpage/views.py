@@ -14,6 +14,7 @@ import datetime
 
 
 
+
 # offset = datetime.timezone(datetime.timedelta(hours=5))
 
 # print(datetime.datetime.now(offset))
@@ -42,7 +43,7 @@ def index(request):
                 currencyUSD_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
-        print(dates_list)
+        
         
         all_currencyUSD_date = list()
         for date_item in dates_list:
@@ -131,7 +132,15 @@ def index(request):
     charts_data_eur = json.dumps(charts_data_eur, default=custom_serializer)
     print(charts_data)  
     print(charts_data_eur)
+    
 
+    currency_math_USD_MOEX = all_currencyUSD_date[-1] - all_currencyUSD_date[-2]
+    currency_math_USD_CB = CB_currencyUSD_date[-1] - CB_currencyUSD_date[-2]
+    currency_math_EUR_MOEX = all_currencyEUR_date[-1] - all_currencyEUR_date[-2]
+    currency_math_EUR_CB = CB_currencyEUR_date[-1] - CB_currencyEUR_date[-2]
+ 
+    
+       
 
     return render(request, 'mainpage/index.html', locals())
 
