@@ -123,7 +123,7 @@ def index(request):
     
     def custom_serializer(obj):
         if isinstance(obj, (date)):
-            serial = obj.isoformat()
+            serial = obj.ctime()
             return serial
         if isinstance(obj, Decimal):
             return float(obj)
