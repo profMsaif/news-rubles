@@ -110,7 +110,7 @@
                     });
                   }
                   
-
+                  
             </script>
 
             <!-- Кнопки переключения валюты -->
@@ -146,35 +146,36 @@
             <!--  -->
             <!-- {{ all_currencyUSD_date|last }} -->
             <!-- Информационная таблица -->
-            <table class="table table-striped">
+            <table  class="table">
                 <tbody>
                     <tr>
                       <th scope="row">Доллар/Рубль MOEX</th>
                       <td colspan="4">{{ dates_list|last }}</td>
-                      <td>{{ currency_math_USD_MOEX|floatformat:4  }}</td>
+                      <td id="USDMOEX">{{ currency_math_USD_MOEX|floatformat:4  }}</td>
                       <td>{{ all_currencyUSD_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
                       <th scope="row">Доллар/Рубль CentralBank</th>
                       <td colspan="4">{{ dates_list|last }}</td>
-                      <td>{{ currency_math_USD_CB|floatformat:4 }}</td>
+                      <td id="USDCB">{{ currency_math_USD_CB|floatformat:4 }}</td>
                       <td>{{ CB_currencyUSD_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
                       <th scope="row">Евро/Рубль MOEX</th>
                       <td colspan="4">{{ dates_list_eur|last }}</td>
-                      <td>{{ currency_math_EUR_MOEX|floatformat:4 }}</td>
+                      <td id="EURMOEX">{{ currency_math_EUR_MOEX|floatformat:4 }}</td>
                       <td>{{ all_currencyEUR_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
                       <th scope="row">Евро/Рубль CentralBank</th>
                       <td colspan="4">{{ dates_list_eur|last }}</td>
-                      <td>{{ currency_math_EUR_CB|floatformat:4 }}</td>
+                      <td id="EURCB">{{ currency_math_EUR_CB|floatformat:4 }}</td>
                       <td>{{ CB_currencyEUR_date|last|floatformat:4 }}</td>
                     </tr>
                   </tbody>
             </table>
             <!--  -->
+            
         </div>
       </div>
     </div>
@@ -210,4 +211,51 @@
         </div>
       </div>
     </div>
+    
+    <script>
+    $(document).ready(function() {
+    $('#USDMOEX').each(function() {
+      // console.log("lf");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val > 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+    $('#USDCB').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val > 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+           
+        }
+    });
+    $('#EURMOEX').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val >= 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+    $('#EURCB').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val >= 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+});
+    </script>
+    
 {% endblock %}
