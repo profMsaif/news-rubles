@@ -15,16 +15,11 @@
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Валютный рынок</h3>
             <br>
-            <!-- {{ currencyUSD }} -->
-        
-            
-            
-            <!-- JS ЧАСТЬ, ПОТОМУ ЧТО ПЕРЕДАТЬ JSON НАПРЯМУЮ В JS НЕ ПОЛУЧАЕТСЯ -->
-            <!-- P.S. (ПОЛУЧАЕТСЯ) -->
+
+            <!-- JS ЧАСТЬ -->
+
             <script>
-              
-    
-              
+      
               var data_usd = JSON.parse('{{ charts_data | safe }}');
               
               var data_eur = JSON.parse('{{ charts_data_eur | safe }}');
@@ -34,86 +29,11 @@
                 console.log(data_usd.charts_currency.dates_list);
                 console.log(data_usd.charts_currency.series);
                 console.log(data_eur.charts_currency_eur.dates_list_eur);
-                console.log(data_eur.charts_currency_eur.series_eur);
-            // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ НАЖАТИИ)
-              function graph_us_rub(){
-                  var chart = Highcharts.chart('container-chartt', {
-                        chart: {
-                            type: 'line'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                          text: 'Доллар/Рубль'
-                      },
-                        xAxis: {
-                            categories: data_usd.charts_currency.dates_list
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Exchange rate'
-                            }
-                        },
-                        plotOptions: {
-                          line: {
-                              marker: {
-                                  enabled: false,
-                                  symbol: 'circle',
-                                  radius: 2,
-                                  states: {
-                                      hover: {
-                                          enabled: true
-                                      }
-                                  }
-                              }
-                          }
-                      },
-                        series: data_usd.charts_currency.series
-                    });
-                  }
-              // ГРАФИК ЕВРО_РУБЛЬ (ПРИ НАЖАТИИ)
-              function graph_eur_rub(){
-                  var chart = Highcharts.chart('container-chartt', {
-                        chart: {
-                            type: 'line'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                          text: 'Евро/Рубль'
-                      },
-                        xAxis: {
-                          categories: data_eur.charts_currency_eur.dates_list_eur
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Exchange rate'
-                            }
-                        },
-                        plotOptions: {
-                          line: {
-                              marker: {
-                                  enabled: false,
-                                  symbol: 'circle',
-                                  radius: 2,
-                                  states: {
-                                      hover: {
-                                          enabled: true
-                                      }
-                                  }
-                              }
-                          }
-                      },                      
-                        series: data_eur.charts_currency_eur.series_eur
-                    });
-                  }
-                  
-                  
+                console.log(data_eur.charts_currency_eur.series_eur);   
             </script>
 
-            <!-- Кнопки переключения валюты -->
+            <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ВАЛЮТЫ -->
+
             <div class="container">
                 <div class="row">
                     <div class="col-8">
@@ -138,14 +58,13 @@
                         </div>
                     </div>
                 </div>
-            <!--  -->
             <br>
-            <!-- График -->
-                <!-- <div id="container-chart"></div> -->
+            <!-- ГРАФИК -->
+
                 <div id="container-chartt" style="width:100%; height:380px;"></div>
-            <!--  -->
-            <!-- {{ all_currencyUSD_date|last }} -->
-            <!-- Информационная таблица -->
+
+            <!-- ИНФОРМАЦИОННАЯ ТАБЛИЦА -->
+
             <table  class="table">
                 <tbody>
                     <tr>
@@ -174,18 +93,20 @@
                     </tr>
                   </tbody>
             </table>
-            <!--  -->
-            
         </div>
       </div>
     </div>
-    <!-- Блок новостей -->
+
+    <!-- БЛОК НОВОСТЕЙ -->
+
     <div class="">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Новости</h3>
             <br>
-            <!-- Таблица  -->
+
+            <!-- ТАБЛИЦА  -->
+
             <table class="table">
                 <tr>
                     <td></td>
@@ -206,12 +127,13 @@
                     </td>
                 </tr>
             </table>
-            <!--  -->
             <br>
         </div>
       </div>
     </div>
-    
+
+    <!-- ФОРМАТИРОВАНИЕ ДАННЫХ ИНФОРМАЦИОННОЙ ТАБЛИЦЫ -->
+
     <script>
     $(document).ready(function() {
     $('#USDMOEX').each(function() {
@@ -231,8 +153,7 @@
            $(this).addClass('red');
         } else if(!isNaN(val) && val > 0) {
           $(this).prepend("+");
-           $(this).addClass('green');
-           
+           $(this).addClass('green');  
         }
     });
     $('#EURMOEX').each(function() {
