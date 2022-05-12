@@ -113,7 +113,7 @@
                 </tr>
                 <tr>
                     <td>
-                      <div>
+                      <div href="">
                         {{ news_math_MOEX_1_time }}
                       </div>
                       <br>
@@ -174,7 +174,7 @@
     $('#USDMOEX').each(function() {
       // console.log("lf");
         const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0){
+        if(!isNaN(val) && val < 0.001){
            $(this).addClass('red');
         } else if(!isNaN(val) && val > 0) {
           $(this).prepend("+");
@@ -186,7 +186,7 @@
         const val = parseInt($(this).text());
         if(!isNaN(val) && val < 0){
            $(this).addClass('red');
-        } else if(!isNaN(val) && val > 0) {
+        } else if(!isNaN(val) && val >= 0) {
           $(this).prepend("+");
            $(this).addClass('green');  
         }
@@ -194,7 +194,7 @@
     $('#EURMOEX').each(function() {
       // console.log("lf2");
         const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0){
+        if(!isNaN(val) && val < 0.001){
            $(this).addClass('red');
         } else if(!isNaN(val) && val >= 0) {
           $(this).prepend("+");

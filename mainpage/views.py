@@ -52,7 +52,7 @@ def index(request):
             if date_item in currencyUSD_dict:
                 all_currencyUSD_date.append(currencyUSD_dict[date_item])
             # else:
-            #     all_currencyUSD_date.append(currencyUSD_CB_dict[date_item])
+            #     all_currencyUSD_date.append(0)
 
         
         CB_currencyUSD_date = list()
@@ -80,6 +80,7 @@ def index(request):
     currencyEUR_dict = dict()
     currencyEUR_CB_dict = dict()
 
+    
 
     for order_by_id in currencyEUR:
         if not order_by_id["timestamp"] in dates_list_eur:
@@ -101,7 +102,7 @@ def index(request):
             if date_item in currencyEUR_dict:
                 all_currencyEUR_date.append(currencyEUR_dict[date_item])
             # else:
-            #     all_currencyEUR_date.append(0)
+            #     all_currencyEUR_date.append(currencyEUR_CB_dict[date_item])
 
         
         CB_currencyEUR_date = list()
@@ -109,9 +110,9 @@ def index(request):
             if date_item in currencyEUR_CB_dict:
                 CB_currencyEUR_date.append(currencyEUR_CB_dict[date_item])
             # else:
-            #     CB_currencyEUR_date.append(0)
+            #     CB_currencyEUR_date.append(currencyEUR_dict[date_item])
     
-    # print(all_currencyEUR_date)
+    
     charts_data_eur = dict()
     charts_data_eur["charts_currency_eur"] = dict()
     charts_data_eur["charts_currency_eur"]["dates_list_eur"] = dates_list_eur
@@ -120,15 +121,20 @@ def index(request):
         {"name": "CentralBank", "data": CB_currencyEUR_date}
     ]
 
+
     # print(charts_data_eur)
 
     newsMoex = News.objects.all()\
-        .values("time_stamp", "id_resource", "text")\
+        .values("time_stamp", "id_resource", "text", "urls")\
         .order_by("time_stamp")
 
     dates_list_news_moex = list()
     newsMoex_dict = dict()
     newsCB_dict = dict()
+
+    dates_list_news_moex_urls = list()
+    newsMoex_dict_urls = dict()
+    newsCB_dict_urls = dict()
 
     
     for order_by_id in newsMoex:
@@ -136,12 +142,12 @@ def index(request):
             dates_list_news_moex.append(order_by_id["time_stamp"])
         if order_by_id["id_resource"] == 1:
             if order_by_id["time_stamp"] in newsMoex_dict:
-                newsMoex_dict[order_by_id["timestamp"]] += order_by_id["price"]
+                newsMoex_dict[order_by_id["timestamp"]] += order_by_id["text"]
             else:
                 newsMoex_dict[order_by_id["time_stamp"]] = order_by_id["text"]
         if order_by_id["id_resource"] == 2:
             if order_by_id["time_stamp"] in newsCB_dict:
-                newsCB_dict[order_by_id["timestamp"]] += order_by_id["price"]
+                newsCB_dict[order_by_id["timestamp"]] += order_by_id["text"]
             else:
                 newsCB_dict[order_by_id["time_stamp"]] = order_by_id["text"]
 
@@ -161,10 +167,8 @@ def index(request):
                 CB_news_date.append(newsCB_dict[date_item])
 
 
-        print(moex_news_date)
-        print(CB_news_date)
-        print(dates_list_news_moex)
-        print(newsMoex)
+
+
 
     def custom_serializer(obj):
         if isinstance(obj, (date)):

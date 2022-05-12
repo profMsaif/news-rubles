@@ -33,7 +33,8 @@ class News(models.Model):
     id_currency = models.ForeignKey("Currency", on_delete=models.CASCADE)
     id_resource = models.ForeignKey("Resource", on_delete=models.CASCADE)
     text = models.TextField('Текст статьи')
-    time_stamp = models.DateField()
+    urls = models.TextField('Текст ссылки')
+    time_stamp = models.DateTimeField('Время')
 
     def str(self):
         return self.text
