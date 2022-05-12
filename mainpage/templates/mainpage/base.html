@@ -50,10 +50,13 @@
       window.onload = function (){
           window.setInterval(function (){
               var date = new Date();
+              var data = date.getDate();
+              var mounth = (date.getMonth()+1);
+              var year = date.getFullYear();
               var hours = date.getHours();
               var minutes = date.getMinutes();
               var seconds = date.getSeconds();
-              var clock = hours + ":" + minutes + ":" + seconds;
+              var clock = data + "." + mounth + "." + year + ", " + hours + ":" + minutes + ":" + seconds;
               document.getElementById("clock").innerHTML = clock;
           }
       );
