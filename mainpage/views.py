@@ -22,6 +22,7 @@ offset = datetime.timezone(datetime.timedelta(hours=5))
 print(datetime.datetime.now(offset))
 
 def index(request):
+
     # ПОЛУЧЕНИЕ ДАННЫХ USD ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
     currencyUSD = USD.objects.all()\
         .values("timestamp", "id_currency", "price", "id_resource")\
@@ -122,8 +123,8 @@ def index(request):
     ]
 
 
-    # print(charts_data_eur)
 
+    # ПОЛУЧЕНИЕ НОВОСТЕЙ С MOEX 
     newsMoex = News.objects.all()\
         .values("time_stamp", "id_resource", "text", "urls")\
         .order_by("time_stamp")
@@ -151,7 +152,7 @@ def index(request):
             else:
                 newsCB_dict[order_by_id["time_stamp"]] = order_by_id["text"]
 
-
+        
         moex_news_date = list()
         for date_item in dates_list_news_moex:
             if date_item in newsMoex_dict:
@@ -166,8 +167,37 @@ def index(request):
             if date_item in newsCB_dict:
                 CB_news_date.append(newsCB_dict[date_item])
 
+    # ПОЛУЧЕНИЕ URLS С MOEX 
+
+    for order_by_id in newsMoex:
+        if not order_by_id["time_stamp"] in dates_list_news_moex_urls:
+            dates_list_news_moex_urls.append(order_by_id["time_stamp"])
+        if order_by_id["id_resource"] == 1:
+            if order_by_id["time_stamp"] in newsMoex_dict_urls:
+                newsMoex_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
+            else:
+                newsMoex_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+        if order_by_id["id_resource"] == 2:
+            if order_by_id["time_stamp"] in newsCB_dict_urls:
+                newsCB_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
+            else:
+                newsCB_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+
+        # print(newsMoex_dict_urls)
+
+        moex_news_date_urls = list()
+        for date_item in dates_list_news_moex_urls:
+            if date_item in newsMoex_dict_urls:
+                moex_news_date_urls.append(newsMoex_dict_urls[date_item])
+            # else:
+            #     moex_news_date.append(newsMoex_dict[date_item])
 
 
+        
+        CB_news_date_urls = list()
+        for date_item in dates_list_news_moex:
+            if date_item in newsCB_dict:
+                CB_news_date_urls.append(newsCB_dict[date_item])
 
 
     def custom_serializer(obj):
@@ -193,6 +223,12 @@ def index(request):
     news_math_MOEX_3 = moex_news_date[-3]
     news_math_MOEX_4 = moex_news_date[-4]
     news_math_MOEX_5 = moex_news_date[-5]
+
+    news_math_MOEX_1_urls = moex_news_date_urls[-1]
+    news_math_MOEX_2_urls = moex_news_date_urls[-2]
+    news_math_MOEX_3_urls = moex_news_date_urls[-3]
+    news_math_MOEX_4_urls = moex_news_date_urls[-4]
+    news_math_MOEX_5_urls = moex_news_date_urls[-5]
 
     news_math_MOEX_1_time = dates_list_news_moex[-1]
     news_math_MOEX_2_time = dates_list_news_moex[-2]

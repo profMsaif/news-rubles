@@ -113,11 +113,12 @@
                 </tr>
                 <tr>
                     <td>
-                      <div href="">
+                      <div>
                         {{ news_math_MOEX_1_time }}
                       </div>
                       <br>
                         {{ news_math_MOEX_1 }}
+                        <br><a href="{{ news_math_MOEX_1_urls }}">{{ news_math_MOEX_1_urls }}</a>
                         <br>
                     </td>
                 </tr>
@@ -128,6 +129,7 @@
                     </div>
                     <br>
                       {{ news_math_MOEX_2 }}
+                      <br><a href="{{ news_math_MOEX_2_urls }}">{{ news_math_MOEX_2_urls }}</a>
                       <br>
                   </td>
               </tr>
@@ -138,6 +140,7 @@
                   </div>
                   <br>
                     {{ news_math_MOEX_3 }}
+                    <br><a href="{{ news_math_MOEX_3_urls }}">{{ news_math_MOEX_3_urls }}</a>
                     <br>
                 </td>
             </tr>
@@ -148,6 +151,7 @@
                 </div>
                 <br>
                   {{ news_math_MOEX_4 }}
+                  <br><a href="{{ news_math_MOEX_4_urls }}">{{ news_math_MOEX_4_urls }}</a>
                   <br>
               </td>
           </tr>
@@ -158,6 +162,7 @@
               </div>
               <br>
                 {{ news_math_MOEX_5 }}
+                <br><a href="{{ news_math_MOEX_5_urls }}">{{ news_math_MOEX_5_urls }}</a>
                 <br>
             </td>
         </tr>
@@ -176,7 +181,7 @@
         const val = parseInt($(this).text());
         if(!isNaN(val) && val < 0.001){
            $(this).addClass('red');
-        } else if(!isNaN(val) && val > 0) {
+        } else if(!isNaN(val) && val > 0.001) {
           $(this).prepend("+");
            $(this).addClass('green');
         }
@@ -196,7 +201,7 @@
         const val = parseInt($(this).text());
         if(!isNaN(val) && val < 0.001){
            $(this).addClass('red');
-        } else if(!isNaN(val) && val >= 0) {
+        } else if(!isNaN(val) && val >= 0.001) {
           $(this).prepend("+");
            $(this).addClass('green');
         }
