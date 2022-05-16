@@ -50,6 +50,10 @@ class Resource(models.Model):
 class Forecast(models.Model):
     id_currency = models.ForeignKey("Currency", on_delete=models.CASCADE)
     forecast = models.FloatField('Прогноз')
+    # ВОЗМОЖНО ПРИДЕТСЯ ДОБАВИТЬ
+    # timestamp = models.DateTimeField('Время')
+    
+
 
     def str(self):
         return self.forecast

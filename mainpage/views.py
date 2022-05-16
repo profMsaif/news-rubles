@@ -97,7 +97,6 @@ def index(request):
             else:
                 currencyEUR_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
 
-        # print(currencyEUR_dict)
         all_currencyEUR_date = list()
         for date_item in dates_list_eur:
             if date_item in currencyEUR_dict:
@@ -167,7 +166,7 @@ def index(request):
             if date_item in newsCB_dict:
                 CB_news_date.append(newsCB_dict[date_item])
 
-    # ПОЛУЧЕНИЕ URLS С MOEX 
+    # ПОЛУЧЕНИЕ  С MOEX 
 
     for order_by_id in newsMoex:
         if not order_by_id["time_stamp"] in dates_list_news_moex_urls:
@@ -182,8 +181,6 @@ def index(request):
                 newsCB_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
             else:
                 newsCB_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
-
-        # print(newsMoex_dict_urls)
 
         moex_news_date_urls = list()
         for date_item in dates_list_news_moex_urls:
