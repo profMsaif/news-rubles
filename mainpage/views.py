@@ -14,12 +14,12 @@ import pytz
 import datetime
 from tzlocal import get_localzone
 
-tz = get_localzone()
-tz
-print(tz)
-offset = datetime.timezone(datetime.timedelta(hours=5))
+# tz = get_localzone()
+# tz
+# print(tz)
+# offset = datetime.timezone(datetime.timedelta(hours=5))
 
-print(datetime.datetime.now(offset))
+# print(datetime.datetime.now(offset))
 
 def index(request):
 
@@ -121,7 +121,7 @@ def index(request):
         {"name": "CentralBank", "data": CB_currencyEUR_date}
     ]
 
-
+    print(dates_list_eur)
 
     # ПОЛУЧЕНИЕ НОВОСТЕЙ С MOEX 
     newsMoex = News.objects.all()\

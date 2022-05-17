@@ -20,10 +20,12 @@
 
             <script>
       
-              var data_usd = JSON.parse('{{ charts_data | safe }}');
+              const data_usd = JSON.parse('{{ charts_data | safe }}');
               
-              var data_eur = JSON.parse('{{ charts_data_eur | safe }}');
+              const data_eur = JSON.parse('{{ charts_data_eur | safe }}');
               
+
+                
                 console.log(data_usd)
                 console.log(data_eur)
                 console.log(data_usd.charts_currency.dates_list);
@@ -44,7 +46,7 @@
                             <div class="col">
                               <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                               <button type="button" class="btn border btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Прогноз курса
                               </button>
@@ -53,6 +55,9 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" onclick="graph_eur_rub()">Прогноз EUR</a></li>
                               </ul>
+                            </div> -->
+                            <div class="col">
+                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Прогноз курса</button>
                             </div>
                           </div>
                         </div>
