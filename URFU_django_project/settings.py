@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_apscheduler',
     'mainpage',
 ]
 
@@ -73,6 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'URFU_django_project.wsgi.application'
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 
 # Database
