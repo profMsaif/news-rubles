@@ -7,5 +7,3 @@ class MainpageConfig(AppConfig):
 
     def ready(self):
         print("start schedule ...")
-        from mainpage_schedule import mainpage_scheduler
-        mainpage_scheduler.start()
