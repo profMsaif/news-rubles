@@ -2,6 +2,9 @@ from distutils.debug import DEBUG
 from pickle import TRUE
 import environ
 import os.path
+import zoneinfo
+import pytz
+from django.utils import timezone
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_apscheduler',
     'mainpage',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
@@ -116,11 +120,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,7 +1,8 @@
 
-
 {% extends 'mainpage/base.html' %}
+
 {% load static %}
+{% load mathfilters %}
 
 {% block title %}
     Main Page
@@ -14,99 +15,27 @@
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Валютный рынок</h3>
             <br>
-            <!-- {{ currencyUSD }} -->
-        
-            
-            <!-- JS ЧАСТЬ, ПОТОМУ ЧТО ПЕРЕДАТЬ JSON НАПРЯМУЮ В JS НЕ ПОЛУЧАЕТСЯ -->
-            <!-- P.S. (ПОЛУЧАЕТСЯ) -->
+
+            <!-- JS ЧАСТЬ -->
+
             <script>
-              var data_usd = JSON.parse('{{ charts_data | safe }}');
-              var data_eur = JSON.parse('{{ charts_data_eur | safe }}');
+      
+              const data_usd = JSON.parse('{{ charts_data | safe }}');
+              
+              const data_eur = JSON.parse('{{ charts_data_eur | safe }}');
+              
+
+                
                 console.log(data_usd)
                 console.log(data_eur)
                 console.log(data_usd.charts_currency.dates_list);
                 console.log(data_usd.charts_currency.series);
                 console.log(data_eur.charts_currency_eur.dates_list_eur);
-                console.log(data_eur.charts_currency_eur.series_eur);
-            // ГРАФИК ДОЛЛАР_РУБЛЬ (ПРИ НАЖАТИИ)
-              function graph_us_rub(){
-                  var chart = Highcharts.chart('container-chartt', {
-                        chart: {
-                            type: 'line'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                          text: 'Доллар/Рубль'
-                      },
-                        xAxis: {
-                            categories: data_usd.charts_currency.dates_list
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Exchange rate'
-                            }
-                        },
-                        plotOptions: {
-                          line: {
-                              marker: {
-                                  enabled: false,
-                                  symbol: 'circle',
-                                  radius: 2,
-                                  states: {
-                                      hover: {
-                                          enabled: true
-                                      }
-                                  }
-                              }
-                          }
-                      },
-                        series: data_usd.charts_currency.series
-                    });
-                  }
-              // ГРАФИК ЕВРО_РУБЛЬ (ПРИ НАЖАТИИ)
-              function graph_eur_rub(){
-                  var chart = Highcharts.chart('container-chartt', {
-                        chart: {
-                            type: 'line'
-                        },
-                        title: {
-                            text: ''
-                        },
-                        subtitle: {
-                          text: 'Евро/Рубль'
-                      },
-                        xAxis: {
-                          categories: data_eur.charts_currency_eur.dates_list_eur
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Exchange rate'
-                            }
-                        },
-                        plotOptions: {
-                          line: {
-                              marker: {
-                                  enabled: false,
-                                  symbol: 'circle',
-                                  radius: 2,
-                                  states: {
-                                      hover: {
-                                          enabled: true
-                                      }
-                                  }
-                              }
-                          }
-                      },
-                        series: data_eur.charts_currency_eur.series_eur
-                    });
-                  }
-                  
-
+                console.log(data_eur.charts_currency_eur.series_eur);   
             </script>
 
-            <!-- Кнопки переключения валюты -->
+            <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ВАЛЮТЫ -->
+
             <div class="container">
                 <div class="row">
                     <div class="col-8">
@@ -117,7 +46,7 @@
                             <div class="col">
                               <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                               <button type="button" class="btn border btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Прогноз курса
                               </button>
@@ -126,68 +55,173 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" onclick="graph_eur_rub()">Прогноз EUR</a></li>
                               </ul>
+                            </div> -->
+                            <div class="col">
+                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Прогноз курса</button>
                             </div>
                           </div>
                         </div>
                     </div>
                 </div>
-            <!--  -->
             <br>
-            <!-- График -->
-                <!-- <div id="container-chart"></div> -->
+            <!-- ГРАФИК -->
+
                 <div id="container-chartt" style="width:100%; height:380px;"></div>
-            <!--  -->
-            <!-- Информационная таблица -->
-            <table class="table table-striped">
+
+            <!-- ИНФОРМАЦИОННАЯ ТАБЛИЦА -->
+
+            <table  class="table">
                 <tbody>
                     <tr>
-                      <th scope="row">Доллар/Рубль</th>
-                      <td colspan="4">18:00</td>
-                      <td>-0,046</td>
-                      <td>103,5500</td>
+                      <th scope="row">Доллар/Рубль MOEX</th>
+                      <td colspan="4">{{ dates_list|last }}</td>
+                      <td id="USDMOEX">{{ currency_math_USD_MOEX|floatformat:4  }}</td>
+                      <td>{{ all_currencyUSD_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Евро/Рубль</th>
-                      <td colspan="4">18:00</td>
-                      <td>-0,046</td>
-                      <td>103,5500</td>
+                      <th scope="row">Доллар/Рубль CentralBank</th>
+                      <td colspan="4">{{ dates_list|last }}</td>
+                      <td id="USDCB">{{ currency_math_USD_CB|floatformat:4 }}</td>
+                      <td>{{ CB_currencyUSD_date|last|floatformat:4 }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Евро/Рубль MOEX</th>
+                      <td colspan="4">{{ dates_list_eur|last }}</td>
+                      <td id="EURMOEX">{{ currency_math_EUR_MOEX|floatformat:4 }}</td>
+                      <td>{{ all_currencyEUR_date|last|floatformat:4 }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Евро/Рубль CentralBank</th>
+                      <td colspan="4">{{ dates_list_eur|last }}</td>
+                      <td id="EURCB">{{ currency_math_EUR_CB|floatformat:4 }}</td>
+                      <td>{{ CB_currencyEUR_date|last|floatformat:4 }}</td>
                     </tr>
                   </tbody>
             </table>
-            <!--  -->
         </div>
       </div>
     </div>
-    <!-- Блок новостей -->
+
+    <!-- БЛОК НОВОСТЕЙ -->
+
     <div class="">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">Новости</h3>
             <br>
-            <!-- Таблица  -->
+
+            <!-- ТАБЛИЦА  -->
+
             <table class="table">
                 <tr>
                     <td></td>
                 </tr>
                 <tr>
                     <td>
-                        Регламент работы рынков Московской биржи 22 марта 2022 года
+                      <div>
+                        {{ news_math_MOEX_1_time }}
+                      </div>
+                      <br>
+                        {{ news_math_MOEX_1 }}
+                        <br><a href="{{ news_math_MOEX_1_urls }}">{{ news_math_MOEX_1_urls }}</a>
+                        <br>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        Регламент работы рынков Московской биржи 22 марта 2022 года
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Регламент работы рынков Московской биржи 22 марта 2022 года
-                    </td>
-                </tr>
+                  <td>
+                    <div>
+                      {{ news_math_MOEX_2_time }}
+                    </div>
+                    <br>
+                      {{ news_math_MOEX_2 }}
+                      <br><a href="{{ news_math_MOEX_2_urls }}">{{ news_math_MOEX_2_urls }}</a>
+                      <br>
+                  </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    {{ news_math_MOEX_3_time }}
+                  </div>
+                  <br>
+                    {{ news_math_MOEX_3 }}
+                    <br><a href="{{ news_math_MOEX_3_urls }}">{{ news_math_MOEX_3_urls }}</a>
+                    <br>
+                </td>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                  {{ news_math_MOEX_4_time }}
+                </div>
+                <br>
+                  {{ news_math_MOEX_4 }}
+                  <br><a href="{{ news_math_MOEX_4_urls }}">{{ news_math_MOEX_4_urls }}</a>
+                  <br>
+              </td>
+          </tr>
+          <tr>
+            <td>
+              <div>
+                {{ news_math_MOEX_5_time }}
+              </div>
+              <br>
+                {{ news_math_MOEX_5 }}
+                <br><a href="{{ news_math_MOEX_5_urls }}">{{ news_math_MOEX_5_urls }}</a>
+                <br>
+            </td>
+        </tr>
             </table>
-            <!--  -->
             <br>
         </div>
       </div>
     </div>
+
+    <!-- ФОРМАТИРОВАНИЕ ДАННЫХ ИНФОРМАЦИОННОЙ ТАБЛИЦЫ -->
+
+    <script>
+    $(document).ready(function() {
+    $('#USDMOEX').each(function() {
+      // console.log("lf");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0.001){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val > 0.001) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+    $('#USDCB').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val >= 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');  
+        }
+    });
+    $('#EURMOEX').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0.001){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val >= 0.001) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+    $('#EURCB').each(function() {
+      // console.log("lf2");
+        const val = parseInt($(this).text());
+        if(!isNaN(val) && val < 0){
+           $(this).addClass('red');
+        } else if(!isNaN(val) && val >= 0) {
+          $(this).prepend("+");
+           $(this).addClass('green');
+        }
+    });
+});
+    </script>
+    
 {% endblock %}
