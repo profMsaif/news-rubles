@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from mainpage.all_parsers.parsers import Currency, Resources
+from mainpage.all_parsers.parsers import Currencies, Resources
 from mainpage.all_parsers import parsers
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -8,10 +8,12 @@ from django_apscheduler.models import DjangoJobExecution
 from django.conf import settings
 from django_apscheduler.util import close_old_connections
 
-MOEX_USD_PARSER = parsers.MoexCurrencyExchangeRateParser(Currency.usd, Resources.moex)
-MOEX_EUR_PARSER = parsers.MoexCurrencyExchangeRateParser(Currency.eur, Resources.moex)
-CB_USD_PARSER = parsers.CbCurrencyExchangeRateParser(Currency.usd, Resources.cb)
-CB_EUR_PARSER = parsers.CbCurrencyExchangeRateParser(Currency.eur, Resources.cb)
+MOEX_USD_PARSER = parsers.MoexCurrencyExchangeRateParser(Currencies.usd, Resources.moex)
+MOEX_EUR_PARSER = parsers.MoexCurrencyExchangeRateParser(Currencies.eur, Resources.moex)
+CB_USD_PARSER = parsers.CbCurrencyExchangeRateParser(Currencies.usd, Resources.cb)
+CB_EUR_PARSER = parsers.CbCurrencyExchangeRateParser(Currencies.eur, Resources.cb)
+CB_NEWS_PARSER = parsers.NewsParser("https://cbr.ru/rss/eventrss", Resources.cb)
+MOEX_NEWS_PARSER = parsers.NewsParser("https://www.moex.com/export/news.aspx?cat=100", Resources.moex)
 
 
 @close_old_connections
@@ -44,7 +46,8 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             CB_USD_PARSER.parse,
-            trigger=CronTrigger(day="*/1"), 
+            args=['USD'],
+            trigger=CronTrigger(day="*/1"),
             id="cb_usd_rub_parser",
             max_instances=1,
             replace_existing=True,
@@ -52,8 +55,25 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             CB_EUR_PARSER.parse,
-            trigger=CronTrigger(day="*/1"), 
+            args=['EUR'],
+            trigger=CronTrigger(day="*/1"),
             id="cb_eur_rub_parser",
+            max_instances=1,
+            replace_existing=True,
+        )
+
+        scheduler.add_job(
+            CB_NEWS_PARSER.run,
+            trigger=CronTrigger(day="*/1"),
+            id="cb_news_parser",
+            max_instances=1,
+            replace_existing=True,
+        )
+
+        scheduler.add_job(
+            MOEX_NEWS_PARSER.run,
+            trigger=CronTrigger(day="*/1"),
+            id="moex_news_parser",
             max_instances=1,
             replace_existing=True,
         )

@@ -1,28 +1,28 @@
 from datetime import datetime
+from itertools import islice
 import requests
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from xml.dom import minidom
 from enum import Enum
+from urllib.request import urlopen
+from xml.etree.ElementTree import parse
+from django.db.models import Max
 
-from mainpage.models import EUR, USD
-from mainpage.models import Currency as db_model_currecny
-from mainpage.models import Resource as db_model_resource
+from mainpage import models
 
-
-class Currency(Enum):
+class Currencies(Enum):
     usd: str = "USD000000TOD"
     eur: str = "EUR_RUB__TOD"
 
     @property
     def model(self):
         if self.name == "usd":
-            return USD
-        return EUR
+            return models.USD
+        return models.EUR
 
     @property
     def id(self):
-        return db_model_currecny.objects.get(name=self.name.upper())
+        return models.Currency.objects.get(name=self.name.upper())
 
 
 class Resources(Enum):
@@ -31,11 +31,11 @@ class Resources(Enum):
 
     @property
     def model(self):
-        return db_model_resource
+        return models.Resource
 
     @property
     def id(self):
-        return db_model_resource.objects.get(name=self.value.upper())
+        return models.Resource.objects.get(name=self.value.upper())
 
 
 @dataclass
@@ -76,7 +76,7 @@ class Parser(ABC):
 
 
 class MoexCurrencyExchangeRateParser(Parser):
-    def __init__(self, currency: Currency, resource: Resources):
+    def __init__(self, currency: Currencies, resource: Resources):
         path = f"iss/engines/currency/markets/selt/boardgroups/13/securities/{currency.value}.json?marketdata.columns=LAST,SECID,UPDATETIME&iss.meta=off"
         self.url = f"{self.base_url}/{path}"
         self.currency = currency
@@ -104,7 +104,7 @@ class MoexCurrencyExchangeRateParser(Parser):
 
 
 class CbCurrencyExchangeRateParser():
-    def __init__(self, currency: Currency, resource: Resources):
+    def __init__(self, currency: Currencies, resource: Resources):
         self.path = "https://www.cbr-xml-daily.ru/daily_json.js"
         self.currency = currency
         self.resource = resource
@@ -113,10 +113,10 @@ class CbCurrencyExchangeRateParser():
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
         }
 
-    def convert_to_quote(self):
+    def convert_to_quote(self, valute):
         data = requests.get(self.path, self.headers).json()
         return Quote(
-            price=data['Valute']['EUR']['Value'],
+            price=data['Valute'][valute]['Value'],
             timestamp=datetime.now(),
             id_resource=self.resource.id,
             id_currency=self.currency.id)
@@ -126,8 +126,56 @@ class CbCurrencyExchangeRateParser():
         model.save()
         return model
 
-    def parse(self):
-        quote = self.convert_to_quote()
+    def parse(self, *args):
+        quote = self.convert_to_quote(args[0])
         return self.save_to_table(quote)
 
+class NewsParser():
+    def __init__(self, url, resource: Resources):
+        self.url = url
+        self.resource = resource
+
+    def convert_to_models(self):
+        news_url = urlopen(self.url)
+        xmldoc = parse(news_url)
+
+        last_date = self.get_last_news_update(self.resource.id).get('timestamp__max')
+        print(last_date)
+
+        news_models = []
+        for item in xmldoc.iterfind('channel/item'):
+
+            date_time = datetime.strptime(item.findtext('pubDate'), "%a, %d %b %Y %H:%M:%S %z")
+
+            if(last_date is not None and date_time > last_date):
+                news_models.append(models.News(
+                    text=item.findtext('title'),
+                    timestamp=date_time,
+                    urls=item.findtext('link'),
+                    id_resource=self.resource.id
+                ))
+            elif(last_date is None):
+                news_models.append(models.News(
+                    text=item.findtext('title'),
+                    timestamp=date_time,
+                    urls=item.findtext('link'),
+                    id_resource=self.resource.id
+                ))
+
+        return news_models
     
+    def get_last_news_update(self, id_resource):
+
+        filtered_models = models.News.objects.filter(id_resource = id_resource)
+        return filtered_models.aggregate(Max('timestamp'))
+
+    def save_to_table(self, objects, batch_size):
+        while True:
+            batch = list(islice(objects, batch_size))
+            if not batch:
+                break
+            models.News.objects.bulk_create(batch, batch_size)
+    
+    def run(self, batch_size=250):
+        news_models = self.convert_to_models()
+        self.save_to_table(news_models, batch_size)
