@@ -15,7 +15,6 @@ def index(request):
 
     # ПОЛУЧЕНИЕ ДАННЫХ USD ДЛЯ ГРАФИКА (МОЕХ/ЦБ)
     currencyUSD = USD.objects.all()\
-        .distinct("timestamp")\
         .values("timestamp", "id_currency", "price", "id_resource")\
         .order_by("timestamp")
 
@@ -208,7 +207,7 @@ def index(request):
 
     charts_data = json.dumps(charts_data, default=custom_serializer)
     charts_data_eur = json.dumps(charts_data_eur, default=custom_serializer)
-    
+
     currency_math_USD_MOEX = all_currencyUSD_date[-1] - all_currencyUSD_date[-2]
     currency_math_USD_CB = CB_currencyUSD_date[-1] - CB_currencyUSD_date[-2]
     currency_math_EUR_MOEX = all_currencyEUR_date[-1] - all_currencyEUR_date[-2]
