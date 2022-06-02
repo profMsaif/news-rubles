@@ -30,7 +30,10 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             MOEX_USD_PARSER.parse,
-            trigger=CronTrigger(hour="*/1"),  # example Every 10 minute
+            trigger=CronTrigger(
+                minute="*/31",
+                hour="8-19",
+                day_of_week="1-5"),
             id="moex_usd_rub_parser",
             max_instances=1,
             replace_existing=True,
@@ -38,7 +41,10 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             MOEX_EUR_PARSER.parse,
-            trigger=CronTrigger(hour="*/1"),  # example Every 10 minute
+            trigger=CronTrigger(
+                minute="*/31",
+                hour="8-19",
+                day_of_week="1-5"),
             id="moex_eur_rub_parser",
             max_instances=1,
             replace_existing=True,
@@ -47,7 +53,11 @@ class Command(BaseCommand):
         scheduler.add_job(
             CB_USD_PARSER.parse,
             args=['USD'],
-            trigger=CronTrigger(day="*/1"),
+            trigger=CronTrigger(
+                minute="*/31",
+                hour="8-19",
+                day_of_week="1-5"
+            ),
             id="cb_usd_rub_parser",
             max_instances=1,
             replace_existing=True,
@@ -56,7 +66,11 @@ class Command(BaseCommand):
         scheduler.add_job(
             CB_EUR_PARSER.parse,
             args=['EUR'],
-            trigger=CronTrigger(day="*/1"),
+            trigger=CronTrigger(
+                minute="*/31",
+                hour="8-19",
+                day_of_week="1-5"
+            ),
             id="cb_eur_rub_parser",
             max_instances=1,
             replace_existing=True,
@@ -64,7 +78,9 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             CB_NEWS_PARSER.run,
-            trigger=CronTrigger(day="*/1"),
+            trigger=CronTrigger(
+                hour="*/1"
+            ),
             id="cb_news_parser",
             max_instances=1,
             replace_existing=True,
@@ -72,7 +88,9 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             MOEX_NEWS_PARSER.run,
-            trigger=CronTrigger(day="*/1"),
+            trigger=CronTrigger(
+                hour="*/1"
+            ),
             id="moex_news_parser",
             max_instances=1,
             replace_existing=True,

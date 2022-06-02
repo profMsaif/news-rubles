@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from .models import USD
-from .models import EUR
-from .models import News
+from .models import USD, EUR, News
 import json
 from decimal import Decimal
 from datetime import date
@@ -210,34 +208,30 @@ def index(request):
 
     charts_data = json.dumps(charts_data, default=custom_serializer)
     charts_data_eur = json.dumps(charts_data_eur, default=custom_serializer)
-
     
-
-    # currency_math_USD_MOEX = all_currencyUSD_date[-1] - all_currencyUSD_date[-2]
-    # currency_math_USD_CB = CB_currencyUSD_date[-1] - CB_currencyUSD_date[-2]
-    # currency_math_EUR_MOEX = all_currencyEUR_date[-1] - all_currencyEUR_date[-2]
-    # currency_math_EUR_CB = CB_currencyEUR_date[-1] - CB_currencyEUR_date[-2]
+    currency_math_USD_MOEX = all_currencyUSD_date[-1] - all_currencyUSD_date[-2]
+    currency_math_USD_CB = CB_currencyUSD_date[-1] - CB_currencyUSD_date[-2]
+    currency_math_EUR_MOEX = all_currencyEUR_date[-1] - all_currencyEUR_date[-2]
+    currency_math_EUR_CB = CB_currencyEUR_date[-1] - CB_currencyEUR_date[-2]
  
-    # news_math_MOEX_1 = moex_news_date[-1]
-    # news_math_MOEX_2 = moex_news_date[-2]
-    # news_math_MOEX_3 = moex_news_date[-3]
-    # news_math_MOEX_4 = moex_news_date[-4]
-    # news_math_MOEX_5 = moex_news_date[-5]
+    news_math_MOEX_1 = moex_news_date[-1]
+    news_math_MOEX_2 = moex_news_date[-2]
+    news_math_MOEX_3 = moex_news_date[-3]
+    news_math_MOEX_4 = moex_news_date[-4]
+    news_math_MOEX_5 = moex_news_date[-5]
 
-    # news_math_MOEX_1_urls = moex_news_date_urls[-1]
-    # news_math_MOEX_2_urls = moex_news_date_urls[-2]
-    # news_math_MOEX_3_urls = moex_news_date_urls[-3]
-    # news_math_MOEX_4_urls = moex_news_date_urls[-4]
-    # news_math_MOEX_5_urls = moex_news_date_urls[-5]
+    news_math_MOEX_1_urls = moex_news_date_urls[-1]
+    news_math_MOEX_2_urls = moex_news_date_urls[-2]
+    news_math_MOEX_3_urls = moex_news_date_urls[-3]
+    news_math_MOEX_4_urls = moex_news_date_urls[-4]
+    news_math_MOEX_5_urls = moex_news_date_urls[-5]
 
-    # news_math_MOEX_1_time = dates_list_news_moex[-1]
-    # news_math_MOEX_2_time = dates_list_news_moex[-2]
-    # news_math_MOEX_3_time = dates_list_news_moex[-3]
-    # news_math_MOEX_4_time = dates_list_news_moex[-4]
-    # news_math_MOEX_5_time = dates_list_news_moex[-5]
+    news_math_MOEX_1_time = dates_list_news_moex[-1]
+    news_math_MOEX_2_time = dates_list_news_moex[-2]
+    news_math_MOEX_3_time = dates_list_news_moex[-3]
+    news_math_MOEX_4_time = dates_list_news_moex[-4]
+    news_math_MOEX_5_time = dates_list_news_moex[-5]
     
-       
-
     return render(request, 'mainpage/index.html', locals())
 
 
