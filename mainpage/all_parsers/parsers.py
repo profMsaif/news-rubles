@@ -140,14 +140,13 @@ class NewsParser():
         xmldoc = parse(news_url)
 
         last_date = self.get_last_news_update(self.resource.id).get('timestamp__max')
-        print(last_date)
 
         news_models = []
         for item in xmldoc.iterfind('channel/item'):
 
             date_time = datetime.strptime(item.findtext('pubDate'), "%a, %d %b %Y %H:%M:%S %z")
 
-            if(last_date is not None and date_time > last_date):
+            if(last_date.timestamp() is not None and date_time.timestamp() > last_date.timestamp()):
                 news_models.append(models.News(
                     text=item.findtext('title'),
                     timestamp=date_time,
