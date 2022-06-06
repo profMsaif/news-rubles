@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import USD
 from .models import EUR
 from .models import News
+from .models import Forecast
 import json
 from json import loads
 from decimal import Decimal
