@@ -301,4 +301,116 @@ def index(request):
 
 
 def newspage(request):
-    return render(request, 'mainpage/news.html')
+
+    # ПОЛУЧЕНИЕ НОВОСТЕЙ С MOEX 
+    newsMoex = News.objects.all()\
+        .values("time_stamp", "id_resource", "text", "urls")\
+        .order_by("time_stamp")
+        
+
+    dates_list_news_moex = list()
+    newsMoex_dict = dict()
+    newsCB_dict = dict()
+
+    dates_list_news_moex_urls = list()
+    newsMoex_dict_urls = dict()
+    newsCB_dict_urls = dict()
+
+    
+    for order_by_id in newsMoex:
+        if not order_by_id["time_stamp"] in dates_list_news_moex:
+            dates_list_news_moex.append(order_by_id["time_stamp"])
+        if order_by_id["id_resource"] == 1:
+            if order_by_id["time_stamp"] in newsMoex_dict:
+                newsMoex_dict[order_by_id["timestamp"]] += order_by_id["text"] 
+            else:
+                newsMoex_dict[order_by_id["time_stamp"]] = order_by_id["text"]
+        if order_by_id["id_resource"] == 2:
+            if order_by_id["time_stamp"] in newsCB_dict:
+                newsCB_dict[order_by_id["timestamp"]] += order_by_id["text"]
+            else:
+                newsCB_dict[order_by_id["time_stamp"]] = order_by_id["text"]
+
+        
+        moex_news_date = list()
+        for date_item in dates_list_news_moex:
+            if date_item in newsMoex_dict:
+                moex_news_date.append(newsMoex_dict[date_item])
+            else:
+                moex_news_date.append(newsMoex_dict[date_item])
+
+
+        
+        CB_news_date = list()
+        for date_item in dates_list_news_moex:
+            if date_item in newsCB_dict:
+                CB_news_date.append(newsCB_dict[date_item])
+
+    # ПОЛУЧЕНИЕ  С MOEX 
+
+    for order_by_id in newsMoex:
+        if not order_by_id["time_stamp"] in dates_list_news_moex_urls:
+            dates_list_news_moex_urls.append(order_by_id["time_stamp"])
+        if order_by_id["id_resource"] == 1:
+            if order_by_id["time_stamp"] in newsMoex_dict_urls:
+                newsMoex_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
+            else:
+                newsMoex_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+        if order_by_id["id_resource"] == 2:
+            if order_by_id["time_stamp"] in newsCB_dict_urls:
+                newsCB_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
+            else:
+                newsCB_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+
+        moex_news_date_urls = list()
+        for date_item in dates_list_news_moex_urls:
+            if date_item in newsMoex_dict_urls:
+                moex_news_date_urls.append(newsMoex_dict_urls[date_item])
+            # else:
+            #     moex_news_date.append(newsMoex_dict[date_item])
+
+
+        
+        CB_news_date_urls = list()
+        for date_item in dates_list_news_moex:
+            if date_item in newsCB_dict:
+                CB_news_date_urls.append(newsCB_dict[date_item])
+
+    
+
+    all_news = []
+    charts_data_news = dict()
+    charts_data_news["charts_data_news"] = dict()
+    charts_data_news["charts_data_news"]["dates_list_news"] = newsMoex_dict_urls
+    charts_data_news["charts_data_news"]["series_news"] = moex_news_date
+    # charts_data_news["charts_data_news"]["series_news"] = [
+    #     {"name": "MOEX", "data": moex_news_date},
+    #     {"name": "CentralBank", "data": CB_news_date}
+    # ]
+
+    news_list = list()
+    news_Moex = list()
+
+
+
+    for order_by_news in newsMoex:
+        # if not order_by_news["time_stamp"] in news_list:
+        #     news_list.append(order_by_news["time_stamp"])
+        # if order_by_news["id_resource"] == 1:
+        if order_by_news["time_stamp"] in news_Moex:
+            news_Moex = order_by_news["time_stamp"], order_by_news["text"], order_by_news["urls"]
+        else:
+            news_Moex = order_by_news["time_stamp"], order_by_news["text"], order_by_news["urls"]
+
+            data = {
+                'time':order_by_news["time_stamp"],
+                'title':order_by_news["text"],
+                'urls':order_by_news["urls"]
+            }
+            all_news.append(data)
+             
+ 
+    all_news.reverse()
+   
+
+    return render(request, 'mainpage/news.html', locals())
