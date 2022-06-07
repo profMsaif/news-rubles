@@ -79,7 +79,8 @@ class Command(BaseCommand):
         scheduler.add_job(
             CB_NEWS_PARSER.run,
             trigger=CronTrigger(
-                hour="*/1"
+                # hour="*/1"
+                second="*/10"
             ),
             id="cb_news_parser",
             max_instances=1,
@@ -89,7 +90,9 @@ class Command(BaseCommand):
         scheduler.add_job(
             MOEX_NEWS_PARSER.run,
             trigger=CronTrigger(
-                hour="*/1"
+                # hour="*/1",
+                # second="*/10"
+                second="*/40"
             ),
             id="moex_news_parser",
             max_instances=1,

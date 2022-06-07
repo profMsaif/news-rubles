@@ -1,26 +1,12 @@
-from distutils.debug import DEBUG
-from pickle import TRUE
+from config import Config
 import environ
 import os.path
-import zoneinfo
-import pytz
-from django.utils import timezone
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-
-env = environ.Env()
-
-environ.Env.read_env()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-environ.Env.read_env()
-DEBUG = env('DEBUG')
-USE_TZ = False
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +16,6 @@ USE_TZ = False
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 ALLOWED_HOSTS = []
 
 
@@ -91,7 +76,7 @@ DATABASES = {
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT': '5432',
+        'PORT': env('POSTGRES_PORT'),
     }
 }
 

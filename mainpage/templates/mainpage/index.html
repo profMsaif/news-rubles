@@ -1,37 +1,28 @@
+ {% extends 'mainpage/base.html' %} {% load static %} {% load mathfilters %} {% block title %} Main Page {% endblock %} {% block content %}
 
-{% extends 'mainpage/base.html' %}
-
-{% load static %}
-{% load mathfilters %}
-
-{% block title %}
-    Main Page
-{% endblock %}
-
-{% block content %}
-
-    <div class="">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <h3 class="mb-0">Валютный рынок</h3>
+            <h3 class="mb-0">Валютный рынок</h3>
             <br>
 
             <!-- JS ЧАСТЬ -->
 
             <script>
-      
-              const data_usd = JSON.parse('{{ charts_data | safe }}');
-              
-              const data_eur = JSON.parse('{{ charts_data_eur | safe }}');
-              
+                const data_usd = JSON.parse('{{ charts_data | safe }}');
 
-                
+                const data_eur = JSON.parse('{{ charts_data_eur | safe }}');
+
+                const data_forecast = JSON.parse('{{ charts_data_forecast | safe }}');
+
+
+
                 console.log(data_usd)
                 console.log(data_eur)
                 console.log(data_usd.charts_currency.dates_list);
                 console.log(data_usd.charts_currency.series);
                 console.log(data_eur.charts_currency_eur.dates_list_eur);
-                console.log(data_eur.charts_currency_eur.series_eur);   
+                console.log(data_eur.charts_currency_eur.series_eur);
             </script>
 
             <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ВАЛЮТЫ -->
@@ -39,12 +30,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-8">
-                          <div class="row">
+                        <div class="row">
                             <div class="col">
-                              <button type="button" class="btn border btn-light" id="us_rub"  onclick="graph_us_rub()">Доллар/Рубль</button>
+                                <button type="button" class="btn border btn-light" id="us_rub" onclick="graph_us_rub()">Доллар/Рубль</button>
                             </div>
                             <div class="col">
-                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Евро/Рубль</button>
+                                <button type="button" class="btn border btn-light" id="eur_rub" onclick="graph_eur_rub()">Евро/Рубль</button>
                             </div>
                             <!-- <div class="col">
                               <button type="button" class="btn border btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,57 +48,57 @@
                               </ul>
                             </div> -->
                             <div class="col">
-                              <button type="button" class="btn border btn-light" id="eur_rub"  onclick="graph_eur_rub()">Прогноз курса</button>
+                                <button type="button" class="btn border btn-light" id="eur_rub" onclick="graph_eur_rub()">Прогноз курса</button>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>
+            </div>
             <br>
             <!-- ГРАФИК -->
 
-                <div id="container-chartt" style="width:100%; height:380px;"></div>
+            <div id="container-chartt" style="width:100%; height:380px;"></div>
 
             <!-- ИНФОРМАЦИОННАЯ ТАБЛИЦА -->
 
-            <table  class="table">
+            <table class="table">
                 <tbody>
                     <tr>
-                      <th scope="row">Доллар/Рубль MOEX</th>
-                      <td colspan="4">{{ dates_list|last }}</td>
-                      <td id="USDMOEX">{{ currency_math_USD_MOEX|floatformat:4  }}</td>
-                      <td>{{ all_currencyUSD_date|last|floatformat:4 }}</td>
+                        <th scope="row">Доллар/Рубль MOEX</th>
+                        <td colspan="4">{{ dates_list|last }}</td>
+                        <td id="USDMOEX">{{ currency_math_USD_MOEX|floatformat:4 }}</td>
+                        <td>{{ all_currencyUSD_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Доллар/Рубль CentralBank</th>
-                      <td colspan="4">{{ dates_list|last }}</td>
-                      <td id="USDCB">{{ currency_math_USD_CB|floatformat:4 }}</td>
-                      <td>{{ CB_currencyUSD_date|last|floatformat:4 }}</td>
+                        <th scope="row">Доллар/Рубль CentralBank</th>
+                        <td colspan="4">{{ dates_list|last }}</td>
+                        <td id="USDCB">{{ currency_math_USD_CB|floatformat:4 }}</td>
+                        <td>{{ CB_currencyUSD_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Евро/Рубль MOEX</th>
-                      <td colspan="4">{{ dates_list_eur|last }}</td>
-                      <td id="EURMOEX">{{ currency_math_EUR_MOEX|floatformat:4 }}</td>
-                      <td>{{ all_currencyEUR_date|last|floatformat:4 }}</td>
+                        <th scope="row">Евро/Рубль MOEX</th>
+                        <td colspan="4">{{ dates_list_eur|last }}</td>
+                        <td id="EURMOEX">{{ currency_math_EUR_MOEX|floatformat:4 }}</td>
+                        <td>{{ all_currencyEUR_date|last|floatformat:4 }}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Евро/Рубль CentralBank</th>
-                      <td colspan="4">{{ dates_list_eur|last }}</td>
-                      <td id="EURCB">{{ currency_math_EUR_CB|floatformat:4 }}</td>
-                      <td>{{ CB_currencyEUR_date|last|floatformat:4 }}</td>
+                        <th scope="row">Евро/Рубль CentralBank</th>
+                        <td colspan="4">{{ dates_list_eur|last }}</td>
+                        <td id="EURCB">{{ currency_math_EUR_CB|floatformat:4 }}</td>
+                        <td>{{ CB_currencyEUR_date|last|floatformat:4 }}</td>
                     </tr>
-                  </tbody>
+                </tbody>
             </table>
         </div>
-      </div>
     </div>
+</div>
 
-    <!-- БЛОК НОВОСТЕЙ -->
+<!-- БЛОК НОВОСТЕЙ -->
 
-    <div class="">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <h3 class="mb-0">Новости</h3>
+            <h3 class="mb-0">Новости</h3>
             <br>
 
             <!-- ТАБЛИЦА  -->
@@ -118,110 +109,105 @@
                 </tr>
                 <tr>
                     <td>
-                      <div>
-                        {{ news_math_MOEX_1_time }}
-                      </div>
-                      <br>
-                        {{ news_math_MOEX_1 }}
+                        <div>
+                            {{ news_math_MOEX_1_time }}
+                        </div>
+                        <br> {{ news_math_MOEX_1 }}
                         <br><a href="{{ news_math_MOEX_1_urls }}">{{ news_math_MOEX_1_urls }}</a>
                         <br>
                     </td>
                 </tr>
                 <tr>
-                  <td>
-                    <div>
-                      {{ news_math_MOEX_2_time }}
-                    </div>
-                    <br>
-                      {{ news_math_MOEX_2 }}
-                      <br><a href="{{ news_math_MOEX_2_urls }}">{{ news_math_MOEX_2_urls }}</a>
-                      <br>
-                  </td>
-              </tr>
-              <tr>
-                <td>
-                  <div>
-                    {{ news_math_MOEX_3_time }}
-                  </div>
-                  <br>
-                    {{ news_math_MOEX_3 }}
-                    <br><a href="{{ news_math_MOEX_3_urls }}">{{ news_math_MOEX_3_urls }}</a>
-                    <br>
-                </td>
-            </tr>
-            <tr>
-              <td>
-                <div>
-                  {{ news_math_MOEX_4_time }}
-                </div>
-                <br>
-                  {{ news_math_MOEX_4 }}
-                  <br><a href="{{ news_math_MOEX_4_urls }}">{{ news_math_MOEX_4_urls }}</a>
-                  <br>
-              </td>
-          </tr>
-          <tr>
-            <td>
-              <div>
-                {{ news_math_MOEX_5_time }}
-              </div>
-              <br>
-                {{ news_math_MOEX_5 }}
-                <br><a href="{{ news_math_MOEX_5_urls }}">{{ news_math_MOEX_5_urls }}</a>
-                <br>
-            </td>
-        </tr>
+                    <td>
+                        <div>
+                            {{ news_math_MOEX_2_time }}
+                        </div>
+                        <br> {{ news_math_MOEX_2 }}
+                        <br><a href="{{ news_math_MOEX_2_urls }}">{{ news_math_MOEX_2_urls }}</a>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            {{ news_math_MOEX_3_time }}
+                        </div>
+                        <br> {{ news_math_MOEX_3 }}
+                        <br><a href="{{ news_math_MOEX_3_urls }}">{{ news_math_MOEX_3_urls }}</a>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            {{ news_math_MOEX_4_time }}
+                        </div>
+                        <br> {{ news_math_MOEX_4 }}
+                        <br><a href="{{ news_math_MOEX_4_urls }}">{{ news_math_MOEX_4_urls }}</a>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            {{ news_math_MOEX_5_time }}
+                        </div>
+                        <br> {{ news_math_MOEX_5 }}
+                        <br><a href="{{ news_math_MOEX_5_urls }}">{{ news_math_MOEX_5_urls }}</a>
+                        <br>
+                    </td>
+                </tr>
             </table>
             <br>
         </div>
-      </div>
     </div>
+</div>
 
-    <!-- ФОРМАТИРОВАНИЕ ДАННЫХ ИНФОРМАЦИОННОЙ ТАБЛИЦЫ -->
+<!-- ФОРМАТИРОВАНИЕ ДАННЫХ ИНФОРМАЦИОННОЙ ТАБЛИЦЫ -->
 
-    <script>
+<script>
     $(document).ready(function() {
-    $('#USDMOEX').each(function() {
-      // console.log("lf");
-        const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0.001){
-           $(this).addClass('red');
-        } else if(!isNaN(val) && val > 0.001) {
-          $(this).prepend("+");
-           $(this).addClass('green');
-        }
+        $('#USDMOEX').each(function() {
+            // console.log("lf");
+            const val = parseInt($(this).text());
+            if (!isNaN(val) && val < 0.001) {
+                $(this).addClass('red');
+            } else if (!isNaN(val) && val > 0.001) {
+                $(this).prepend("+");
+                $(this).addClass('green');
+            }
+        });
+        $('#USDCB').each(function() {
+            // console.log("lf2");
+            const val = parseInt($(this).text());
+            if (!isNaN(val) && val < 0) {
+                $(this).addClass('red');
+            } else if (!isNaN(val) && val >= 0) {
+                $(this).prepend("+");
+                $(this).addClass('green');
+            }
+        });
+        $('#EURMOEX').each(function() {
+            // console.log("lf2");
+            const val = parseInt($(this).text());
+            if (!isNaN(val) && val < 0.001) {
+                $(this).addClass('red');
+            } else if (!isNaN(val) && val >= 0.001) {
+                $(this).prepend("+");
+                $(this).addClass('green');
+            }
+        });
+        $('#EURCB').each(function() {
+            // console.log("lf2");
+            const val = parseInt($(this).text());
+            if (!isNaN(val) && val < 0) {
+                $(this).addClass('red');
+            } else if (!isNaN(val) && val >= 0) {
+                $(this).prepend("+");
+                $(this).addClass('green');
+            }
+        });
     });
-    $('#USDCB').each(function() {
-      // console.log("lf2");
-        const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0){
-           $(this).addClass('red');
-        } else if(!isNaN(val) && val >= 0) {
-          $(this).prepend("+");
-           $(this).addClass('green');  
-        }
-    });
-    $('#EURMOEX').each(function() {
-      // console.log("lf2");
-        const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0.001){
-           $(this).addClass('red');
-        } else if(!isNaN(val) && val >= 0.001) {
-          $(this).prepend("+");
-           $(this).addClass('green');
-        }
-    });
-    $('#EURCB').each(function() {
-      // console.log("lf2");
-        const val = parseInt($(this).text());
-        if(!isNaN(val) && val < 0){
-           $(this).addClass('red');
-        } else if(!isNaN(val) && val >= 0) {
-          $(this).prepend("+");
-           $(this).addClass('green');
-        }
-    });
-});
-    </script>
-    
+</script>
+
 {% endblock %}

@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .models import USD, EUR, News
+from .models import USD, EUR, News, Forecast
 import json
 from decimal import Decimal
 from datetime import date
+import numpy as np
 
 # tz = get_localzone()
 # tz
@@ -122,6 +123,66 @@ def index(request):
         {"name": "MOEX", "data": all_currencyEUR_date},
         {"name": "CentralBank", "data": CB_currencyEUR_date}
     ]
+
+    # ПОЛУЧЕНИЕ ДАННЫХ ВАЛЮТ ДЛЯ ГРАФИКА С ПРЕДСКАЗАНИЕМ (USD/EUR)
+    # currencyFC = Forecast.objects.all()\
+    #     .values("timestamp", "id_currency", "forecast")\
+    #     .order_by("timestamp")
+
+    # dates_list_forecast = list()
+    # currencyFC_USD_dict = dict()
+    # currencyFC_EUR_dict = dict()
+
+    
+    # for order_by_id in currencyFC:
+        
+    #     if not order_by_id["timestamp"] in dates_list_forecast:
+    #         dates_list_forecast.append(order_by_id["timestamp"])
+
+    #     if order_by_id["id_currency"] == 1:
+
+    #         if order_by_id["timestamp"] in currencyFC_USD_dict:
+    #             currencyFC_USD_dict[order_by_id["timestamp"]] += order_by_id["forecast"]
+
+    #         else:
+    #             currencyFC_USD_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
+                
+    #     if order_by_id["id_currency"] == 2:
+
+    #         if order_by_id["timestamp"] in currencyFC_EUR_dict:
+    #             currencyFC_EUR_dict[order_by_id["timestamp"]] += order_by_id["forecast"]
+
+    #         else:
+    #             currencyFC_EUR_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
+        
+        
+    #     FC_currencyUSD_date = list()
+    #     for date_item in dates_list_forecast:
+    #         if date_item in currencyFC_USD_dict:
+    #             FC_currencyUSD_date.append(currencyFC_USD_dict[date_item])
+
+
+        
+    #     FC_currencyEUR_date = list()
+    #     for date_item in dates_list_forecast:
+    #         if date_item in currencyFC_EUR_dict:
+    #             FC_currencyEUR_date.append(currencyFC_EUR_dict[date_item])
+
+    #     date_l_seven = np.take(dates_list_forecast, [-7, -6, -5, -4, -3, -2, -1])
+
+    #     price_USD_l_seven = np.take(FC_currencyUSD_date, [-7, -6, -5, -4, -3, -2, -1])
+
+    #     price_EUR_l_seven = np.take(FC_currencyEUR_date, [-7, -6, -5, -4, -3, -2, -1])
+
+
+
+    # charts_data_forecast = dict()
+    # charts_data_forecast["charts_currency_forecast"] = dict()
+    # charts_data_forecast["charts_currency_forecast"]["dates_list_forecast"] = date_l_seven
+    # charts_data_forecast["charts_currency_forecast"]["series_forecast"] = [
+    #     {"name": "USD", "data": price_USD_l_seven},
+    #     {"name": "EUR", "data": price_EUR_l_seven}
+    # ]
 
     # ПОЛУЧЕНИЕ НОВОСТЕЙ С MOEX 
     newsMoex = News.objects.all()\
