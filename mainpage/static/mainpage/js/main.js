@@ -111,7 +111,6 @@ function graph_eur_rub() {
         series: data_eur.charts_currency_eur.series_eur
     });
 }
-
 // ГРАФИК С ПРЕДСКАЗАНИЕМ (ПРИ НАЖАТИИ)
 
 function graph_forecast() {

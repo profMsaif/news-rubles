@@ -32,7 +32,7 @@ class Command(BaseCommand):
             MOEX_USD_PARSER.parse,
             trigger=CronTrigger(
                 minute="*/31",
-                hour="8-19",
+                hour="12-19",
                 day_of_week="1-5"),
             id="moex_usd_rub_parser",
             max_instances=1,
@@ -43,7 +43,7 @@ class Command(BaseCommand):
             MOEX_EUR_PARSER.parse,
             trigger=CronTrigger(
                 minute="*/31",
-                hour="8-19",
+                hour="12-19",
                 day_of_week="1-5"),
             id="moex_eur_rub_parser",
             max_instances=1,
@@ -55,7 +55,7 @@ class Command(BaseCommand):
             args=['USD'],
             trigger=CronTrigger(
                 minute="*/31",
-                hour="8-19",
+                hour="12-19",
                 day_of_week="1-5"
             ),
             id="cb_usd_rub_parser",
@@ -68,7 +68,7 @@ class Command(BaseCommand):
             args=['EUR'],
             trigger=CronTrigger(
                 minute="*/31",
-                hour="8-19",
+                hour="12-19",
                 day_of_week="1-5"
             ),
             id="cb_eur_rub_parser",
@@ -79,8 +79,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             CB_NEWS_PARSER.run,
             trigger=CronTrigger(
-                # hour="*/1"
-                second="*/10"
+                hour="*/2"
             ),
             id="cb_news_parser",
             max_instances=1,
@@ -90,9 +89,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             MOEX_NEWS_PARSER.run,
             trigger=CronTrigger(
-                # hour="*/1",
-                # second="*/10"
-                second="*/40"
+                hour="*/1"
             ),
             id="moex_news_parser",
             max_instances=1,

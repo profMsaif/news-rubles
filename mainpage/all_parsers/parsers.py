@@ -146,14 +146,15 @@ class NewsParser():
 
             date_time = datetime.strptime(item.findtext('pubDate'), "%a, %d %b %Y %H:%M:%S %z")
 
-            if(last_date.timestamp() is not None and date_time.timestamp() > last_date.timestamp()):
+            if(last_date is None):
                 news_models.append(models.News(
                     text=item.findtext('title'),
                     timestamp=date_time,
                     urls=item.findtext('link'),
                     id_resource=self.resource.id
                 ))
-            elif(last_date is None):
+
+            elif (last_date.timestamp() is not None and date_time.timestamp() > last_date.timestamp()):
                 news_models.append(models.News(
                     text=item.findtext('title'),
                     timestamp=date_time,
@@ -175,6 +176,6 @@ class NewsParser():
                 break
             models.News.objects.bulk_create(batch, batch_size)
     
-    def run(self, batch_size=250):
+    def run(self, batch_size=400):
         news_models = self.convert_to_models()
         self.save_to_table(news_models, batch_size)

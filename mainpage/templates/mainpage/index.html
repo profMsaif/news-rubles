@@ -16,7 +16,6 @@
                 const data_forecast = JSON.parse('{{ charts_data_forecast | safe }}');
 
 
-
                 console.log(data_usd)
                 console.log(data_eur)
                 console.log(data_usd.charts_currency.dates_list);
@@ -48,7 +47,7 @@
                               </ul>
                             </div> -->
                             <div class="col">
-                                <button type="button" class="btn border btn-light" id="eur_rub" onclick="graph_eur_rub()">Прогноз курса</button>
+                                <button type="button" class="btn border btn-light" id="eur_rub" onclick="graph_forecast()">Прогноз курса</button>
                             </div>
                         </div>
                     </div>

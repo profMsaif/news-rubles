@@ -1,3 +1,5 @@
+from distutils.debug import DEBUG
+from pickle import TRUE
 from config import Config
 import environ
 import os.path
@@ -16,7 +18,8 @@ environ.Env.read_env(BASE_DIR / ".env")
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = []
+DEBUG = TRUE
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -103,13 +106,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
 USE_TZ = False
+
 
 
 # Static files (CSS, JavaScript, Images)
