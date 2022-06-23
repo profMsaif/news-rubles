@@ -314,8 +314,8 @@ def newspage(request):
 
     # ПОЛУЧЕНИЕ НОВОСТЕЙ С MOEX 
     newsMoex = News.objects.all()\
-        .values("time_stamp", "id_resource", "text", "urls")\
-        .order_by("time_stamp")
+        .values("timestamp", "id_resource", "text", "urls")\
+        .order_by("timestamp")
         
 
     dates_list_news_moex = list()
@@ -328,18 +328,18 @@ def newspage(request):
 
     
     for order_by_id in newsMoex:
-        if not order_by_id["time_stamp"] in dates_list_news_moex:
-            dates_list_news_moex.append(order_by_id["time_stamp"])
+        if not order_by_id["timestamp"] in dates_list_news_moex:
+            dates_list_news_moex.append(order_by_id["timestamp"])
         if order_by_id["id_resource"] == 1:
-            if order_by_id["time_stamp"] in newsMoex_dict:
+            if order_by_id["timestamp"] in newsMoex_dict:
                 newsMoex_dict[order_by_id["timestamp"]] += order_by_id["text"] 
             else:
-                newsMoex_dict[order_by_id["time_stamp"]] = order_by_id["text"]
+                newsMoex_dict[order_by_id["timestamp"]] = order_by_id["text"]
         if order_by_id["id_resource"] == 2:
-            if order_by_id["time_stamp"] in newsCB_dict:
+            if order_by_id["timestamp"] in newsCB_dict:
                 newsCB_dict[order_by_id["timestamp"]] += order_by_id["text"]
             else:
-                newsCB_dict[order_by_id["time_stamp"]] = order_by_id["text"]
+                newsCB_dict[order_by_id["timestamp"]] = order_by_id["text"]
 
         
         moex_news_date = list()
@@ -359,18 +359,18 @@ def newspage(request):
     # ПОЛУЧЕНИЕ  С MOEX 
 
     for order_by_id in newsMoex:
-        if not order_by_id["time_stamp"] in dates_list_news_moex_urls:
-            dates_list_news_moex_urls.append(order_by_id["time_stamp"])
+        if not order_by_id["timestamp"] in dates_list_news_moex_urls:
+            dates_list_news_moex_urls.append(order_by_id["timestamp"])
         if order_by_id["id_resource"] == 1:
-            if order_by_id["time_stamp"] in newsMoex_dict_urls:
+            if order_by_id["timestamp"] in newsMoex_dict_urls:
                 newsMoex_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
             else:
-                newsMoex_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+                newsMoex_dict_urls[order_by_id["timestamp"]] = order_by_id["urls"]
         if order_by_id["id_resource"] == 2:
-            if order_by_id["time_stamp"] in newsCB_dict_urls:
+            if order_by_id["timestamp"] in newsCB_dict_urls:
                 newsCB_dict_urls[order_by_id["timestamp"]] += order_by_id["urls"]
             else:
-                newsCB_dict_urls[order_by_id["time_stamp"]] = order_by_id["urls"]
+                newsCB_dict_urls[order_by_id["timestamp"]] = order_by_id["urls"]
 
         moex_news_date_urls = list()
         for date_item in dates_list_news_moex_urls:
@@ -404,16 +404,16 @@ def newspage(request):
 
 
     for order_by_news in newsMoex:
-        # if not order_by_news["time_stamp"] in news_list:
-        #     news_list.append(order_by_news["time_stamp"])
+        # if not order_by_news["timestamp"] in news_list:
+        #     news_list.append(order_by_news["timestamp"])
         # if order_by_news["id_resource"] == 1:
-        if order_by_news["time_stamp"] in news_Moex:
-            news_Moex = order_by_news["time_stamp"], order_by_news["text"], order_by_news["urls"]
+        if order_by_news["timestamp"] in news_Moex:
+            news_Moex = order_by_news["timestamp"], order_by_news["text"], order_by_news["urls"]
         else:
-            news_Moex = order_by_news["time_stamp"], order_by_news["text"], order_by_news["urls"]
+            news_Moex = order_by_news["timestamp"], order_by_news["text"], order_by_news["urls"]
 
             data = {
-                'time':order_by_news["time_stamp"],
+                'time':order_by_news["timestamp"],
                 'title':order_by_news["text"],
                 'urls':order_by_news["urls"]
             }
