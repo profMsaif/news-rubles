@@ -1,23 +1,17 @@
-import numpy as np 
-import pandas as pd
-import math
+import numpy as np
 import datetime
-from datetime import datetime as dt
 import yfinance as yf
-# visualizations
-import matplotlib.pyplot as plt
-import seaborn as sns
-from fbprophet.diagnostics import cross_validation
-from fbprophet.plot import plot_cross_validation_metric
-from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-import plotly.graph_objs as go
-# time series algorithm
-from fbprophet import Prophet
-from fbprophet.diagnostics import performance_metrics
-from fbprophet.diagnostics import cross_validation
+from prophet import Prophet
+from mainpage import models
+from dataclasses import dataclass
+
+@dataclass
+class Predict:
+   forecast: float
+   timestamp: str
+   id_currency: int
 
 class Model_Prophet:
-
    def get_data():
       data_usdrub = yf.download('USDRUB=X', start='2017-01-01', end=datetime.datetime.now().date())
       data_eurub = yf.download('EURRUB=X', start='2017-01-01', end=datetime.datetime.now().date())
@@ -47,20 +41,38 @@ class Model_Prophet:
       mae=np.mean(abs(cmp_df[-45:-15]['e']))
       
       forecast = forecast[['ds','yhat_lower']][-30:]
-      forecast['yhat_lower'] = forecast['yhat_lower'].apply(lambda x:x-mae)
+      forecast['yhat_lower'] = forecast['yhat_lower'].apply(lambda x:x-0.9*mae)
       return forecast
 
-   def get_forecast(self, df):
+   def get_forecast(df, self):
       forecast = self.ml_model(df)
-      forecast = forecast[['ds','yhat_lower']][-30:]
+      forecast = float(forecast[['yhat_lower']][-30:-29].iloc[0])
       return forecast
 
    def ml_predict(self, usd=True,eur=True):
-      df_usdrub,df_eurub=self.get_data()
-      if usd==True:
+      df_usdrub,df_eurub = self.get_data()
+      if usd == True:
          forecast_usdrub = self.get_forecast(df_usdrub)
          return forecast_usdrub
       if eur==True:
          forecast_eurub = self.get_forecast(df_eurub)
          return forecast_eurub
+
+   def save_to_table(self, usd=True):
+      
+      predict = self.ml_predict(usd=usd)
+
+      valute = models.Currency.objects.get(name='USD') if usd == True else models.Currency.objects.get(name='EUR')
+
+      mdl = Predict(
+         forecast = predict,
+         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+         id_currency = valute.id
+      )
+
+      model = models.Forecast.objects.create(mdl)
+      model.save()
+      return model
+
+
 
