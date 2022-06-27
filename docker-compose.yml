@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
     db:
@@ -22,6 +22,7 @@ services:
       command: >
         sh -c "python manage.py makemigrations &&
             python manage.py migrate &&
+            pip install prophet &&
             python manage.py runserver 0.0.0.0:8001"
       ports:
         - "8001:8001"
@@ -32,7 +33,9 @@ services:
 
     tasks:
       build: .
-      command: python manage.py moex
+      command: >
+        sh -c "pip install prophet &&
+            python manage.py moex"
       volumes:
         - .:/www
       depends_on:

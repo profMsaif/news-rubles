@@ -12,12 +12,13 @@ class Predict:
    id_currency: int
 
 class Model_Prophet:
-   def get_data():
+
+   def get_data(self):
       data_usdrub = yf.download('USDRUB=X', start='2017-01-01', end=datetime.datetime.now().date())
       data_eurub = yf.download('EURRUB=X', start='2017-01-01', end=datetime.datetime.now().date())
       return data_usdrub,data_eurub
 
-   def ml_model(df):
+   def ml_model(self, df):
       df_columns = ['ds','y']
       train_columns = ['Close']
       train = df[train_columns]
@@ -44,7 +45,7 @@ class Model_Prophet:
       forecast['yhat_lower'] = forecast['yhat_lower'].apply(lambda x:x-0.9*mae)
       return forecast
 
-   def get_forecast(df, self):
+   def get_forecast(self, df):
       forecast = self.ml_model(df)
       forecast = float(forecast[['yhat_lower']][-30:-29].iloc[0])
       return forecast
@@ -66,11 +67,11 @@ class Model_Prophet:
 
       mdl = Predict(
          forecast = predict,
-         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-         id_currency = valute.id
+         timestamp = datetime.datetime.now(),
+         id_currency = valute
       )
 
-      model = models.Forecast.objects.create(mdl)
+      model = models.Forecast.objects.create(**mdl.__dict__)
       model.save()
       return model
 

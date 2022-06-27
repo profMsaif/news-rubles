@@ -47,8 +47,16 @@
                               </ul>
                             </div> -->
                             <div class="col">
-                                <button type="button" class="btn border btn-light" id="eur_rub" onclick="graph_forecast()">Прогноз курса</button>
+                                <div>Курс доллара на завтра:</div> {{ predict_USD }}
                             </div>
+                            <div class="col">
+                                <div>Курс евро на завтра:</div> {{ predict_EUR }}
+                            </div>
+
+                            <p>
+                                {{all_currencyEUR_date}}
+                            </p>
+
                         </div>
                     </div>
                 </div>

@@ -102,7 +102,9 @@ class Command(BaseCommand):
         scheduler.add_job(
             ML_PREDICT.save_to_table,
             trigger=CronTrigger(
-                day="*/1"
+                day="*/1",
+                hour="00",
+                minute="00"
             ),
             id="ml_usd_predict",
             max_instances=1,
@@ -110,10 +112,12 @@ class Command(BaseCommand):
         )
 
         scheduler.add_job(
-            ML_PREDICT.ml_predict,
+            ML_PREDICT.save_to_table,
             args=['usd=False'],
             trigger=CronTrigger(
-                day="*/1"
+                day="*/1",
+                hour="00",
+                minute="00"
             ),
             id="ml_eur_predict",
             max_instances=1,

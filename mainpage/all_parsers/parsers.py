@@ -85,7 +85,7 @@ class MoexCurrencyExchangeRateParser(Parser):
     def convert_to_quote(self, resp):
         data = resp['marketdata']['data'][0]
         return Quote(price=data[0],
-                     timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                     timestamp=datetime.now().strftime("%Y-%m-%d %H:%M"),
                      id_resource=self.resource.id,
                      id_currency=self.currency.id)
 
@@ -117,7 +117,7 @@ class CbCurrencyExchangeRateParser():
         data = requests.get(self.path, self.headers).json()
         return Quote(
             price=data['Valute'][valute]['Value'],
-            timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            timestamp=datetime.now().strftime("%Y-%m-%d %H:%M"),
             id_resource=self.resource.id,
             id_currency=self.currency.id)
 

@@ -46,7 +46,7 @@ def index(request):
         if order_by_id["id_resource"] == 1:
 
             if order_by_id["timestamp"] in currencyUSD_dict:
-                currencyUSD_dict[order_by_id["timestamp"]] += order_by_id["price"]
+                currencyUSD_dict[order_by_id["timestamp"]] = order_by_id["price"]
 
             else:
                 currencyUSD_dict[order_by_id["timestamp"]] = order_by_id["price"]
@@ -54,7 +54,7 @@ def index(request):
         if order_by_id["id_resource"] == 2:
 
             if order_by_id["timestamp"] in currencyUSD_CB_dict:
-                currencyUSD_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
+                currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
 
             else:
                 currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
@@ -99,13 +99,16 @@ def index(request):
     
 
     for order_by_id in currencyEUR:
+
         if not order_by_id["timestamp"] in dates_list_eur:
             dates_list_eur.append(order_by_id["timestamp"])
+
         if order_by_id["id_resource"] == 1:
             if order_by_id["timestamp"] in currencyEUR_dict:
                 currencyEUR_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyEUR_dict[order_by_id["timestamp"]] = order_by_id["price"]
+                
         if order_by_id["id_resource"] == 2:
             if order_by_id["timestamp"] in currencyEUR_CB_dict:
                 currencyEUR_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
@@ -139,55 +142,57 @@ def index(request):
     
 
  # ПОЛУЧЕНИЕ ДАННЫХ ВАЛЮТ ДЛЯ ГРАФИКА С ПРЕДСКАЗАНИЕМ (USD/EUR)
-    # currencyFC = Forecast.objects.all()\
-    #     .values("timestamp", "id_currency", "forecast")\
-    #     .order_by("timestamp")
+    currencyFC = Forecast.objects.all()\
+        .values("timestamp", "id_currency", "forecast")\
+        .order_by("timestamp")
 
-    # dates_list_forecast = list()
-    # currencyFC_USD_dict = dict()
-    # currencyFC_EUR_dict = dict()
+    dates_list_forecast = list()
+    currencyFC_USD_dict = dict()
+    currencyFC_EUR_dict = dict()
 
     
-    # for order_by_id in currencyFC:
+    for order_by_id in currencyFC:
         
-    #     if not order_by_id["timestamp"] in dates_list_forecast:
-    #         dates_list_forecast.append(order_by_id["timestamp"])
+        if not order_by_id["timestamp"] in dates_list_forecast:
+            dates_list_forecast.append(order_by_id["timestamp"])
 
-    #     if order_by_id["id_currency"] == 1:
+        if order_by_id["id_currency"] == 1:
 
-    #         if order_by_id["timestamp"] in currencyFC_USD_dict:
-    #             currencyFC_USD_dict[order_by_id["timestamp"]] += order_by_id["forecast"]
+            if order_by_id["timestamp"] in currencyFC_USD_dict:
+                currencyFC_USD_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
 
-    #         else:
-    #             currencyFC_USD_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
+            else:
+                currencyFC_USD_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
                 
-    #     if order_by_id["id_currency"] == 2:
+        if order_by_id["id_currency"] == 2:
 
-    #         if order_by_id["timestamp"] in currencyFC_EUR_dict:
-    #             currencyFC_EUR_dict[order_by_id["timestamp"]] += order_by_id["forecast"]
+            if order_by_id["timestamp"] in currencyFC_EUR_dict:
+                currencyFC_EUR_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
 
-    #         else:
-    #             currencyFC_EUR_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
+            else:
+                currencyFC_EUR_dict[order_by_id["timestamp"]] = order_by_id["forecast"]
         
         
-    #     FC_currencyUSD_date = list()
-    #     for date_item in dates_list_forecast:
-    #         if date_item in currencyFC_USD_dict:
-    #             FC_currencyUSD_date.append(currencyFC_USD_dict[date_item])
+        FC_currencyUSD_date = list()
+        for date_item in dates_list_forecast:
+            if date_item in currencyFC_USD_dict:
+                FC_currencyUSD_date.append(currencyFC_USD_dict[date_item])
 
 
         
-    #     FC_currencyEUR_date = list()
-    #     for date_item in dates_list_forecast:
-    #         if date_item in currencyFC_EUR_dict:
-    #             FC_currencyEUR_date.append(currencyFC_EUR_dict[date_item])
+        FC_currencyEUR_date = list()
+        for date_item in dates_list_forecast:
+            if date_item in currencyFC_EUR_dict:
+                FC_currencyEUR_date.append(currencyFC_EUR_dict[date_item])
 
     # date_l_seven = np.take(dates_list_forecast, [-7, -6, -5, -4, -3, -2, -1])
     
     # price_USD_l_seven = np.take(FC_currencyUSD_date, [-7, -6, -5, -4, -3, -2, -1])
     
     # price_EUR_l_seven = np.take(FC_currencyEUR_date, [-7, -6, -5, -4, -3, -2, -1])
-    
+
+    predict_USD = FC_currencyUSD_date[-1]
+    predict_EUR = FC_currencyEUR_date[-1]
 
 
     # charts_data_forecast = dict()
@@ -343,13 +348,6 @@ def newspage(request):
 
         
         moex_news_date = list()
-        for date_item in dates_list_news_moex:
-            if date_item in newsMoex_dict:
-                moex_news_date.append(newsMoex_dict[date_item])
-            else:
-                moex_news_date.append(newsMoex_dict[date_item])
-
-
         
         CB_news_date = list()
         for date_item in dates_list_news_moex:
@@ -404,9 +402,6 @@ def newspage(request):
 
 
     for order_by_news in newsMoex:
-        # if not order_by_news["timestamp"] in news_list:
-        #     news_list.append(order_by_news["timestamp"])
-        # if order_by_news["id_resource"] == 1:
         if order_by_news["timestamp"] in news_Moex:
             news_Moex = order_by_news["timestamp"], order_by_news["text"], order_by_news["urls"]
         else:
