@@ -34,51 +34,38 @@ def index(request):
     currencyUSD_dict = dict()
     currencyUSD_CB_dict = dict()
 
-    all_currencyUSD_date = list()
-    CB_currencyUSD_date = list()
-    all_currencyEUR_date = list()
-    CB_currencyEUR_date = list()
+    
     for order_by_id in currencyUSD:
-        
         if not order_by_id["timestamp"] in dates_list:
             dates_list.append(order_by_id["timestamp"])
-
         if order_by_id["id_resource"] == 1:
-
             if order_by_id["timestamp"] in currencyUSD_dict:
-                currencyUSD_dict[order_by_id["timestamp"]] = order_by_id["price"]
-
+                currencyUSD_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyUSD_dict[order_by_id["timestamp"]] = order_by_id["price"]
-                
         if order_by_id["id_resource"] == 2:
-
             if order_by_id["timestamp"] in currencyUSD_CB_dict:
-                currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
-
+                currencyUSD_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyUSD_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
         
         
-        
+        all_currencyUSD_date = list()
         for date_item in dates_list:
             if date_item in currencyUSD_dict:
                 all_currencyUSD_date.append(currencyUSD_dict[date_item])
             # else:
-            #     all_currencyUSD_date.append(NULL)
+            #     all_currencyUSD_date.append(0)
 
         
-       
+        CB_currencyUSD_date = list()
         for date_item in dates_list:
             if date_item in currencyUSD_CB_dict:
                 CB_currencyUSD_date.append(currencyUSD_CB_dict[date_item])
             # else:
             #     CB_currencyUSD_date.append(currencyUSD_dict[date_item])
-            # else:
-            #     CB_currencyUSD_date.append(NULL)
     
-
-    print(dates_list)
+    
     charts_data = dict()
     charts_data["charts_currency"] = dict()
     charts_data["charts_currency"]["dates_list"] = dates_list
@@ -99,22 +86,20 @@ def index(request):
     
 
     for order_by_id in currencyEUR:
-
         if not order_by_id["timestamp"] in dates_list_eur:
             dates_list_eur.append(order_by_id["timestamp"])
-
         if order_by_id["id_resource"] == 1:
             if order_by_id["timestamp"] in currencyEUR_dict:
                 currencyEUR_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyEUR_dict[order_by_id["timestamp"]] = order_by_id["price"]
-                
         if order_by_id["id_resource"] == 2:
             if order_by_id["timestamp"] in currencyEUR_CB_dict:
                 currencyEUR_CB_dict[order_by_id["timestamp"]] += order_by_id["price"]
             else:
                 currencyEUR_CB_dict[order_by_id["timestamp"]] = order_by_id["price"]
 
+        all_currencyEUR_date = list()
         for date_item in dates_list_eur:
             if date_item in currencyEUR_dict:
                 all_currencyEUR_date.append(currencyEUR_dict[date_item])
@@ -122,6 +107,7 @@ def index(request):
             #     all_currencyEUR_date.append(currencyEUR_CB_dict[date_item])
 
         
+        CB_currencyEUR_date = list()
         for date_item in dates_list_eur:
             if date_item in currencyEUR_CB_dict:
                 CB_currencyEUR_date.append(currencyEUR_CB_dict[date_item])
@@ -129,8 +115,6 @@ def index(request):
             #     CB_currencyEUR_date.append(currencyEUR_dict[date_item])
     
     
-    # print(dates_list_eur)
-
     charts_data_eur = dict()
     charts_data_eur["charts_currency_eur"] = dict()
     charts_data_eur["charts_currency_eur"]["dates_list_eur"] = dates_list_eur
