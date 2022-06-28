@@ -1,11 +1,36 @@
+
 {% extends 'mainpage/base.html' %}
+
+{% load static %}
+{% load mathfilters %}
 
 {% block title %}
     News Page
 {% endblock %}
 
 {% block content %}
+
     <h1>Новости</h1>
-    <p>Тестовый текст</p>
+
+    {% for news in all_news %}
+    <table class="table">
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+              <div>
+                {{ news.time }}
+              </div>
+              <br>
+                    {{ news.title }}
+                <br><a href="{{ news.urls }}">{{ news.urls }}</a>
+                <br>
+            </td>
+        </tr>
+    </table>
+
+    {% endfor %}
+
 {% endblock %}
 

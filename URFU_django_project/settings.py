@@ -1,22 +1,14 @@
 from distutils.debug import DEBUG
 from pickle import TRUE
+from config import Config
 import environ
 import os.path
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-
-env = environ.Env()
-
-environ.Env.read_env()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-environ.Env.read_env()
-DEBUG = env('DEBUG')
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,8 +18,8 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = TRUE
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,7 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainpage'
+    'django_apscheduler',
+    'mainpage',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +66,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'URFU_django_project.wsgi.application'
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 
 # Database
@@ -83,8 +78,8 @@ DATABASES = {
         'NAME': env('POSTGRES_DB'),
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': '5432',
+        'HOST': 'localhost',
+        # 'PORT': env('POSTGRES_PORT'),
     }
 }
 
@@ -111,13 +106,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Yekaterinburg'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
+
 
 
 # Static files (CSS, JavaScript, Images)
