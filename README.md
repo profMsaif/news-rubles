@@ -3,6 +3,7 @@ news-rubles project is website that track the exchange rate, the news in the Rus
 
 
 # Запуск приложения
+
 Для запуска приложения необходимо в среде VS Code (либо в другой любой) выполнить команду: -git pull , для получения всех файлов проекта из основной ветки "main" в GitHub.
 
 Далее необходимо скачать Docker Desktop: https://www.docker.com/get-started/
@@ -13,7 +14,9 @@ news-rubles project is website that track the exchange rate, the news in the Rus
 
 Внутри контейнера находятся 3 образа (в первом находится команды планировщика задач, во втором находится web-оболочка проекта, в третьем БД).
 
+
 После чего необходимо нажать на контейнер "news-rubles", для его запуска. 
+
 
 Далее необходимо активировать админ панель, для этого необходимо нажать на образ "news-rubles-web" (в Docker Desktop) и в командной строке выполнить команду: python manage.py createsuperuser, после чего указать Логин и Пароль для входа в админ панель.
 
